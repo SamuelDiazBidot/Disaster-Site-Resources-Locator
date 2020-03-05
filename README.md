@@ -1,4 +1,12 @@
 # Disaster-Site-Resources-Locator
+## Installation
+### Requirements
+- Needs pip installed
+- `pip install -r requirements.txt`
+## Run
+- Go into project directory with console
+- `export FLASK_APP=hello.py`
+- `python -m flask run`
 ## Todo
 - [ ] Register as a administrator.
 - [ ] Register as a person in need of resources.
