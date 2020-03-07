@@ -1,55 +1,9 @@
 from flask import Flask, jsonify, request 
-
-resourcesRequested = [
-    { "id" : 0
-    , "type" : "water bottle"
-    , "name" : "Nikini bottles"
-    , "description" : "36 water bottle pack"
-    , "requesterName" : "Johnny Sins"
-    , "location" : "NA"
-    },
-    { "id" : 1
-    , "type" : "baby food"
-    , "name" : "gerber baby food"
-    , "description": "bannana flavor"
-    , "requesterName" : "Jose Rivera"
-    , "location" : "Ponce, PR"
-    },
-    { "id" : 2
-    , "type" : "gasoline"
-    , "name": "puma gas"
-    , "description": "20 liters"
-    , "requesterName" : "Miguel Navarro"
-    , "location" : "San Juan, PR"
-    }
-]
-
-resourcesAvailable = [
-    { "id" : 0
-    , "type" : "water bottle"
-    , "name" : "Nikini bottles"
-    , "description" : "36 water bottle pack"
-    , "SupplierName" : "Johnny Sins"
-    , "location" : "NA"
-    , "price" : 0.0
-    },
-    { "id" : 1
-    , "type" : "baby food"
-    , "name" : "gerber baby food"
-    , "description": "bannana flavor"
-    , "SupplierName" : "Jose Rivera"
-    , "location" : "Ponce, PR"
-    , "price" : 0.0 
-    },
-    { "id" : 2
-    , "type" : "gasoline"
-    , "name": "puma gas"
-    , "description": "20 liters"
-    , "supplierName" : "Miguel Navarro"
-    , "location" : "San Juan, PR"
-    , "price" : 10.0
-    }
-]
+from handler.availableResource import AvailableResourceHandler
+from handler.requestedResource import RequestedResourceHandler
+from handler.administrator import AdministratorHandler
+from handler.requester import RequesterHandler
+from handler.supplier import SupplierHandler
 
 app = Flask(__name__)
 
@@ -57,35 +11,42 @@ app = Flask(__name__)
 def greetings():
     return "Welcome to the Disaster Site Resource Locator"
 
-# Route to see and post requests for resources
+@app.route('/register/administrator')
+def registerAdmin():
+    AdministratorHandler().register(request.json)
+
+@app.route('/register/requester')
+def registerRequester():
+    RequesterHandler().register(request.json)
+
+@app.route('/register/supplier')
+def registerSupplier():
+    SupplierHandler().register(request.json)
+
 @app.route('/resources/request', methods=['GET', 'POST'])
 def requested():
-    # Return the resource request and a 201 Ok response if valid
     if request.method == 'POST':
-        return jsonify(Request = resourcesRequested[0]), 201
-    # Return all requested resources
+        RequestedResourceHandler().add(request.json)
     else:
-        return jsonify(Requests = resourcesRequested)
+        RequestedResourceHandler().getAll()
 
-# Route to see and post available resources
-# Le falta la info de quien esta supliendo y si es una donacion o no
+@app.route('/resources/request/<int:id>', methods=['GET', 'DELETE'])
+def requestedByID(id):
+    if request.method == 'DELETE':
+        RequestedResourceHandler().delete(id)
+    else:
+        RequestedResourceHandler().getByID(id)
+
 @app.route('/resources/available', methods=['GET', 'POST'])
 def available():
-    # Return the resource suplied and a 201 Ok response if valid
     if request.method == 'POST':
-        return jsonify(Available = resourcesAvailable[0]), 201
-    # Return all available resources
+        AvailableResourceHandler().add(request.json)
     else:
-        return jsonify(Available = resourcesAvailable)
+        AvailableResourceHandler().getAll()
 
-# Route to see the available resource with a specific id
-@app.route('/resources/available/<int:id>', methods=['GET', 'PUT'])
+@app.route('/resources/available/<int:id>', methods=['GET', 'DELETE'])
 def availableByID(id):
-    # GET info of a specific available resource
-    if request.method == 'GET':
-        return jsonify(available = resourcesAvailable[0]), 201
-    # Reserve or purchase a resource if its not already taken
-    elif request.method == 'PUT':
-        return jsonify(available = resourcesAvailable[0]), 201
-
-
+    if request.method == 'DELETE':
+        AvailableResourceHandler().delete(id)
+    else:
+        AvailableResourceHandler().getByID(id)
