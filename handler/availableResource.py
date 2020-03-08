@@ -8,6 +8,7 @@ resourcesAvailable = [
     , "SupplierName" : "Johnny Sins"
     , "location" : "NA"
     , "price" : 0.0
+    , "reserved" : False
     },
     { "id" : 1
     , "type" : "baby food"
@@ -16,6 +17,7 @@ resourcesAvailable = [
     , "SupplierName" : "Jose Rivera"
     , "location" : "Ponce, PR"
     , "price" : 0.0 
+    , "reserved" : True
     },
     { "id" : 2
     , "type" : "gasoline"
@@ -24,6 +26,7 @@ resourcesAvailable = [
     , "supplierName" : "Miguel Navarro"
     , "location" : "San Juan, PR"
     , "price" : 10.0
+    , "reserved" : False
     }
 ]
 
@@ -34,7 +37,7 @@ class AvailableResourceHandler:
     def getByID(self, id):
         return jsonify(Available = resourcesAvailable[0])
 
-    def getByKeyword(self, keywords):
+    def getByKeyword(self, form):
         return jsonify(Available = resourcesAvailable[0])
 
     def add(self, json):
@@ -42,3 +45,9 @@ class AvailableResourceHandler:
 
     def delete(self, id):
         return jsonify(Available = resourcesAvailable[0]), 201
+
+    def update(self, id, form):
+        return jsonify(Available = resourcesAvailable[0]), 201
+
+    def reserve(self, id):
+        return jsonify(Reserved = resourcesAvailable[1]), 201

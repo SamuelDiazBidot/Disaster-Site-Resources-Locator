@@ -39,3 +39,6 @@ class RequestedResourceHandler:
 
     def delete(self, id):
         return jsonify(Request = resourcesRequested[0]), 201
+
+    def update(self, id, form):
+        return jsonify(Request = resourcesRequested[0]), 201

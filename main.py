@@ -28,12 +28,17 @@ def requested():
     if request.method == 'POST':
         RequestedResourceHandler().add(request.json)
     else:
-        RequestedResourceHandler().getAll()
+        if request.form:
+            RequestedResourceHandler().getByKeyword(request.form)
+        else:
+            RequestedResourceHandler().getAll()
 
-@app.route('/resources/request/<int:id>', methods=['GET', 'DELETE'])
+@app.route('/resources/request/<int:id>', methods=['GET', 'DELETE', 'PUT'])
 def requestedByID(id):
     if request.method == 'DELETE':
         RequestedResourceHandler().delete(id)
+    elif request.method == 'PUT':
+        RequestedResourceHandler().update(id, request.form)
     else:
         RequestedResourceHandler().getByID(id)
 
@@ -42,11 +47,17 @@ def available():
     if request.method == 'POST':
         AvailableResourceHandler().add(request.json)
     else:
-        AvailableResourceHandler().getAll()
+        if request.form:
+            AvailableResourceHandler().getByKeyword(request.form)
+        else:
+            AvailableResourceHandler().getAll()
 
-@app.route('/resources/available/<int:id>', methods=['GET', 'DELETE'])
+@app.route('/resources/available/<int:id>', methods=['GET', 'DELETE', 'PUT'])
 def availableByID(id):
     if request.method == 'DELETE':
         AvailableResourceHandler().delete(id)
+    elif request.method == 'PUT':
+        # AvailableResourceHandler().update(id, request.form)
+        AvailableResourceHandler().reserve(id)
     else:
         AvailableResourceHandler().getByID(id)
