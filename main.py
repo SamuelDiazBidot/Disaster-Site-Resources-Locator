@@ -1,63 +1,75 @@
 from flask import Flask, jsonify, request 
+from flask_cors import CORS
+
 from handler.availableResource import AvailableResourceHandler
 from handler.requestedResource import RequestedResourceHandler
 from handler.administrator import AdministratorHandler
 from handler.requester import RequesterHandler
 from handler.supplier import SupplierHandler
+from handler.statistics import StatisticsHandler
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def greetings():
     return "Welcome to the Disaster Site Resource Locator"
 
-@app.route('/register/administrator')
+@app.route('/register/administrator', methods=['GET'])
 def registerAdmin():
-    AdministratorHandler().register(request.json)
+    return AdministratorHandler().register(request.json)
 
 @app.route('/register/requester')
 def registerRequester():
-    RequesterHandler().register(request.json)
+    return RequesterHandler().register(request.json)
 
 @app.route('/register/supplier')
 def registerSupplier():
-    SupplierHandler().register(request.json)
+    return SupplierHandler().register(request.json)
 
 @app.route('/resources/request', methods=['GET', 'POST'])
 def requested():
     if request.method == 'POST':
-        RequestedResourceHandler().add(request.json)
+        return RequestedResourceHandler().add(request.json)
     else:
         if request.form:
-            RequestedResourceHandler().getByKeyword(request.form)
+            return RequestedResourceHandler().getByKeyword(request.form)
         else:
-            RequestedResourceHandler().getAll()
+            return RequestedResourceHandler().getAll()
 
 @app.route('/resources/request/<int:id>', methods=['GET', 'DELETE', 'PUT'])
 def requestedByID(id):
     if request.method == 'DELETE':
-        RequestedResourceHandler().delete(id)
+        return RequestedResourceHandler().delete(id)
     elif request.method == 'PUT':
-        RequestedResourceHandler().update(id, request.form)
+        return RequestedResourceHandler().update(id, request.form)
     else:
-        RequestedResourceHandler().getByID(id)
+        return RequestedResourceHandler().getByID(id)
 
 @app.route('/resources/available', methods=['GET', 'POST'])
 def available():
     if request.method == 'POST':
-        AvailableResourceHandler().add(request.json)
+        return AvailableResourceHandler().add(request.json)
     else:
         if request.form:
-            AvailableResourceHandler().getByKeyword(request.form)
+            return AvailableResourceHandler().getByKeyword(request.form)
         else:
-            AvailableResourceHandler().getAll()
+            return AvailableResourceHandler().getAll()
 
 @app.route('/resources/available/<int:id>', methods=['GET', 'DELETE', 'PUT'])
 def availableByID(id):
     if request.method == 'DELETE':
-        AvailableResourceHandler().delete(id)
+        return AvailableResourceHandler().delete(id)
     elif request.method == 'PUT':
         # AvailableResourceHandler().update(id, request.form)
-        AvailableResourceHandler().reserve(id)
+        return AvailableResourceHandler().reserve(id)
     else:
-        AvailableResourceHandler().getByID(id)
+        return AvailableResourceHandler().getByID(id)
+
+@app.route('/statistics/daily')
+def dailyStatistics():
+    return StatisticsHandler().getDailyStatistics()
+
+@app.route('/statistics/weekly')
+def weeklyStatistics():
+    return StatisticsHandler().getWeeklyStatistics()

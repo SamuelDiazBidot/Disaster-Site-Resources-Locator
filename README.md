@@ -19,4 +19,4 @@
 - [x] see details of resources
 - [x] search resources being requested, with sorting by name
 - [x] search resources being available, with sorting by name
-- [ ] show dashboard page with trending statistics of resources needed, resources available and matching availability. (7 day period and 8 senate regions)
+- [ ] show dashboard page with trending statistics of resources needed, resources available and matching availability. (daily, 7 day period and 8 senate regions)
