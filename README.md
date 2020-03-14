@@ -5,7 +5,7 @@
 - `pip install -r requirements.txt`
 ## Run
 - Go into project directory with console
-- `export FLASK_APP=hello.py`
+- `export FLASK_APP=main.py`
 - `python -m flask run`
 ## Todo
 - [x] Register as a administrator.
