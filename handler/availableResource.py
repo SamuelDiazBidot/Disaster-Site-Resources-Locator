@@ -1,5 +1,20 @@
 from flask import jsonify
 
+
+WATER = 'water'
+MEDICATIONS = 'medications'
+BABYFOOD = 'baby food'
+CANNEDFOOD = 'canned food'
+DRYFOOD = 'dry food'
+ICE = 'ice'
+FUEL = 'fuel'
+MEDICALDEVICES = 'medical devices'
+HEAVYEQUIPMENT = 'heavy equipment'
+TOOLS = 'tools'
+CLOTHING = 'clothing'
+POWERGENERATOR = 'power generator'
+BATTERY = 'battery'
+
 resourcesAvailable = [
     { "id" : 0
     , "type" : "water bottle"
@@ -39,6 +54,14 @@ class AvailableResourceHandler:
 
     def getByKeyword(self, form):
         return jsonify(Available = resourcesAvailable[0])
+
+    # En el futuro seria bueno añadir un metodo que busque por type y description simultaneamente
+    def getByItemType(self, item_type=BABYFOOD):
+        item_found = []
+        for item in resourcesAvailable:
+            if item['type'] == item_type:
+                item_found.append(item)
+        return jsonify(item_found), 201
 
     def add(self, json):
         return jsonify(Available = resourcesAvailable[0]), 201
