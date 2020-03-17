@@ -38,12 +38,21 @@ resourcesAvailable = [
     }
 ]
 
+matches = {"matched" : 10}
+
+data = { 
+    "Most_Available" : resourcesAvailable
+    , "Most_Requested" : resourcesRequested
+    , "Matches" : matches
+}
+
+
 class StatisticsHandler:
     def getDailyStatistics(self):
-        return jsonify(Most_Requested = resourcesRequested, Most_Available = resourcesAvailable)
+        return jsonify(Most_Requested = resourcesRequested, Most_Available = resourcesAvailable, Matches = matches)
 
     def getWeeklyStatistics(self):
-        return jsonify(Most_Requested = resourcesRequested,Most_Available = resourcesAvailable)
+        return jsonify(Most_Requested = resourcesRequested,Most_Available = resourcesAvailable, Matches = matches)
 
     def getDistrictStatistics(self):
-       return 0 
+       return  jsonify(San_Juan= data, Bayamon = data, Arecibo = data, Mayaguez = data, Ponce = data, Guayama = data, Humacao = data, Carolina = data)

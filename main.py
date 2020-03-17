@@ -73,3 +73,7 @@ def dailyStatistics():
 @app.route('/statistics/weekly')
 def weeklyStatistics():
     return StatisticsHandler().getWeeklyStatistics()
+
+@app.route('/statistics/district')
+def districtStatistics():
+    return StatisticsHandler().getDistrictStatistics()
