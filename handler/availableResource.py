@@ -1,4 +1,7 @@
 from flask import jsonify
+from handler.utils import get_from_keyword_sorted_from_list
+import re
+
 
 resourcesAvailable = [
     { "id" : 0
@@ -27,6 +30,24 @@ resourcesAvailable = [
     , "location" : "San Juan, PR"
     , "price" : 10.0
     , "reserved" : False
+    },
+    { "id" : 3
+    , "type" : "gasoline"
+    , "name": "Shell gas"
+    , "description": "40 liters"
+    , "supplierName" : "Miguel Navarro"
+    , "location" : "San Juan, PR"
+    , "price" : 10.0
+    , "reserved" : False
+    },
+    { "id" : 4
+    , "type" : "watter bottle"
+    , "name": "Nikini Gallons"
+    , "description": "20 liters"
+    , "supplierName" : "Miguel Navarro"
+    , "location" : "San Juan, PR"
+    , "price" : 100.0
+    , "reserved" : False
     }
 ]
 
@@ -37,8 +58,9 @@ class AvailableResourceHandler:
     def getByID(self, id):
         return jsonify(Available = resourcesAvailable[0])
 
-    def getByKeyword(self, form):
-        return jsonify(Available = resourcesAvailable[0])
+    def getByKeyword(self, keyword):
+        reserved = False
+        return jsonify(Available = get_from_keyword_sorted_from_list(keyword, resourcesAvailable, 'name', reserved=reserved)), 201
 
     def add(self, json):
         return jsonify(Available = resourcesAvailable[0]), 201

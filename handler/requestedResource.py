@@ -1,4 +1,5 @@
 from flask import jsonify
+from handler.utils import get_from_keyword_sorted_from_list
 
 resourcesRequested = [
     { "id" : 0
@@ -33,6 +34,9 @@ class RequestedResourceHandler:
 
     def getByKeyword(self, keywords):
         return jsonify(Request = resourcesRequested[0])
+    
+    def getSortedByKeyword(self, keyword):
+        return jsonify(Request = get_from_keyword_sorted_from_list(keyword, resourcesRequested, 'name')), 201
 
     def add(self, json):
         return jsonify(Request = resourcesRequested[0])
