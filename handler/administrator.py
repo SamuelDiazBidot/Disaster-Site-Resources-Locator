@@ -1,4 +1,5 @@
 from flask import jsonify
+from handler.utils import CREATED
 
 administrator = { "username" : "admin"
                 , "password" : "password"
@@ -6,4 +7,4 @@ administrator = { "username" : "admin"
 
 class AdministratorHandler:
     def register(self, json):
-        return jsonify(Administrator = administrator), 201
+        return jsonify(Administrator = administrator), CREATED

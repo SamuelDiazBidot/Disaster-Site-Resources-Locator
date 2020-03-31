@@ -1,4 +1,5 @@
 from flask import jsonify
+from handler.utils import OK
 
 resourcesRequested = [
     { "id" : 0
@@ -49,10 +50,10 @@ data = {
 
 class StatisticsHandler:
     def getDailyStatistics(self):
-        return jsonify(Most_Requested = resourcesRequested, Most_Available = resourcesAvailable, Matches = matches)
+        return jsonify(Most_Requested = resourcesRequested, Most_Available = resourcesAvailable, Matches = matches), OK
 
     def getWeeklyStatistics(self):
-        return jsonify(Most_Requested = resourcesRequested,Most_Available = resourcesAvailable, Matches = matches)
+        return jsonify(Most_Requested = resourcesRequested,Most_Available = resourcesAvailable, Matches = matches), OK
 
     def getDistrictStatistics(self):
-       return  jsonify(San_Juan= data, Bayamon = data, Arecibo = data, Mayaguez = data, Ponce = data, Guayama = data, Humacao = data, Carolina = data)
+       return  jsonify(San_Juan= data, Bayamon = data, Arecibo = data, Mayaguez = data, Ponce = data, Guayama = data, Humacao = data, Carolina = data), OK

@@ -1,4 +1,5 @@
 from flask import jsonify
+from handler.utils import CREATED
 
 supplier = { "username" : "SuppliesRus"
            , "password" : "plainText"
@@ -8,4 +9,4 @@ supplier = { "username" : "SuppliesRus"
 
 class SupplierHandler:
     def register(self, json):
-        return jsonify(Supplier = supplier), 201
+        return jsonify(Supplier = supplier), CREATED
