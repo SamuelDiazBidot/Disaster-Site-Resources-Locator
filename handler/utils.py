@@ -12,6 +12,46 @@ ACCEPTED = 202
 
 ''' Status Codes '''
 
+registered_addresses = [
+    {
+        'country': 'Puerto Rico',
+        'city': 'Idk',
+        'street' : 'La de la esquina',
+        'district': 'nine',
+        'zipcode': '00123',
+        'coordinates': [15.0, -15.5]
+    },
+
+    {
+        'country': 'Canada',
+        'city': 'Maya',
+        'street' : 'Donde esta el church',
+        'district': 'Somewhere',
+        'zipcode': '00321',
+        'coordinates': [67.0, -126.5]
+    },
+
+    {
+        'country': 'Puerto Rico',
+        'city': 'Maya',
+        'street' : 'Donde esta el church',
+        'district': 'Somewhere',
+        'zipcode': '00321',
+        'coordinates': [112.0, -186.5]
+    },
+
+    {
+        'country': 'Puerto Rico',
+        'city': 'Maya',
+        'street' : 'Donde esta el church',
+        'district': 'Somewhere',
+        'zipcode': '00984',
+        'coordinates': [100.0, 100.5]
+    }
+
+]
+
+
 
 
 def get_from_keyword_sorted_from_list(keyword: str, in_dict_list: List[Dict], key,  reserved: bool = None):
@@ -80,8 +120,7 @@ def get_sorted_from_list_with_key(keyword: str, in_dict_list: List[Dict], dict_k
 
 class ClientCartInfo:
 
-    from handler.requester import requester
-    #from handler.availableResource import resourcesAvailable as res
+    from handler.requester import requester    
     from random import Random
 
     res = None

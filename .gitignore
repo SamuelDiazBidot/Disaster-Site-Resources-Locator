@@ -1,2 +1,4 @@
 .vscode
 .vscode/*
+__pycache__/*
+handler/__pycache__/*

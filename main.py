@@ -7,7 +7,6 @@ from handler.administrator import AdministratorHandler
 from handler.requester import RequesterHandler
 from handler.supplier import SupplierHandler
 from handler.statistics import StatisticsHandler
-from handler.address import AddressHandler
 from handler.utils import ClientCartInfo
 
 
@@ -19,9 +18,13 @@ PUT = 'PUT'
 POST = 'POST'
 GET = 'GET'
 
+# Site greetings
+
 @app.route('/')
 def greetings():
     return "Welcome to the Disaster Site Resource Locator"
+
+# Register routes
 
 @app.route('/register/administrator', methods=[GET])
 def registerAdmin():
@@ -34,6 +37,8 @@ def registerRequester():
 @app.route('/register/supplier')
 def registerSupplier():
     return SupplierHandler().register(request.json)
+
+# Resources routes
 
 @app.route('/resources/request', methods=[GET, POST])
 def requested():
@@ -63,13 +68,11 @@ def available():
     if request.method == POST:
         return AvailableResourceHandler().add(request.json)
     else:
-        if request.form:
-            # Tengo duda como funciona esto, si funciona de por si o el route que añadi esta demas
+        if request.form:            
             return AvailableResourceHandler().getByKeyword(request.form)
         else:
             return AvailableResourceHandler().getAll()
 
-# Este es para resources availables, entiendo que no debe incluir los resources si no está available.
 @app.route('/resources/available/<int:id>', methods=[GET, DELETE, PUT])
 def availableByID(id):
     if request.method == DELETE:
@@ -84,11 +87,18 @@ def availableByID(id):
 def availableByKeyWord(keyword):
     return AvailableResourceHandler().getByKeyword(keyword)
 
-# Este busca la info de cualquier resource sin importar su estado.
-@app.route('/resources/details/<int:id>')
-def getResourceDetails():
-    pass
 
+@app.route('/resources/details/<int:id>', methods=[GET, DELETE, PUT])
+def getResourceDetails(id):
+    if request.method == DELETE:
+        return AvailableResourceHandler().delete(id)
+    elif request.method == PUT:
+        # AvailableResourceHandler().update(id, request.form)
+        return AvailableResourceHandler().reserve(id)
+    else:
+        return AvailableResourceHandler().getByID(id)
+
+# Statistics routes
 
 @app.route('/statistics/daily')
 def dailyStatistics():
@@ -102,41 +112,7 @@ def weeklyStatistics():
 def districtStatistics():
     return StatisticsHandler().getDistrictStatistics()
 
-
-''' Address routes '''
-# TODO verificar si los routes se quedan o se quitan
-@app.route('/address')
-def get_all_addresses():
-    return AddressHandler.get_all_addresses()
-
-@app.route('/address/country/<country>')
-def get_address_by_country(country):
-    return AddressHandler.get_by_country(country)
-
-@app.route('/address/district/<district>')
-def get_address_by_district(district):
-    return AddressHandler.get_by_distric(district)
-
-@app.route('/address/city/<city>')
-def get_address_by_city(city):
-    return AddressHandler.get_by_city(city)
-
-@app.route('/address/zipcode/<zipcode>')
-def get_address_by_zipcode(zipcode):
-    return AddressHandler.get_by_zipcode(zipcode)
-
-@app.route('/address/street/<street>')
-def get_address_by_street(street):
-    return AddressHandler.get_by_street(street)
-
-@app.route('/address/coord/<coords>')
-def get_address_by_coordinates(coords):
-    return AddressHandler.get_by_coord(coords)
-
-
 # Client cart route
 @app.route('/requester/cart')
 def get_client_cart():
     return ClientCartInfo(resourcesAvailable).get_current_client_car()
-
-# Falta añadir lo de resourcepayment (receipt), cart, etc...

@@ -1,6 +1,6 @@
 from flask import jsonify
-from handler.utils import CREATED
-from handler.address import registered_addresses
+from handler.utils import CREATED, registered_addresses
+
 
 requester = { "username" : "username"
             , "password" : "securepassword"

@@ -1,6 +1,5 @@
 from flask import jsonify
-from handler.utils import get_from_keyword_sorted_from_list, OK, ACCEPTED, CREATED
-from handler.address import registered_addresses
+from handler.utils import get_from_keyword_sorted_from_list, registered_addresses, OK, ACCEPTED, CREATED
 import re
 
 # TODO Test methods with the new address from registeres addresses

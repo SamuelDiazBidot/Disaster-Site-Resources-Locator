@@ -1,6 +1,6 @@
 from flask import jsonify
-from handler.utils import get_from_keyword_sorted_from_list, OK, ACCEPTED, CREATED
-from handler.address import registered_addresses as adrs
+from handler.utils import get_from_keyword_sorted_from_list, OK, ACCEPTED, CREATED, registered_addresses as adrs
+
 
 # TODO Cambiar el address por uno de la clase de address y probarlo
 resourcesRequested = [
