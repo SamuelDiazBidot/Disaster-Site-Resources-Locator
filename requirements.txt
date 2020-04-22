@@ -6,3 +6,4 @@ MarkupSafe==1.1.1
 Werkzeug==1.0.0
 flask-cors==3.0.8
 Six==1.14.0
+mariadb == 0.9.57 

@@ -19,14 +19,12 @@ POST = 'POST'
 GET = 'GET'
 
 # Site greetings
-
 @app.route('/')
 def greetings():
     return "Welcome to the Disaster Site Resource Locator"
 
 # Register routes
-
-@app.route('/register/administrator', methods=[GET])
+@app.route('/register/administrator')
 def registerAdmin():
     return AdministratorHandler().register(request.json)
 
@@ -38,8 +36,12 @@ def registerRequester():
 def registerSupplier():
     return SupplierHandler().register(request.json)
 
-# Resources routes
+# User routes
+@app.route('/requesters')
+def getAllRequesters():
+    return RequesterHandler().getAll()
 
+# Resources routes
 @app.route('/resources/request', methods=[GET, POST])
 def requested():
     if request.method == POST:
@@ -86,7 +88,6 @@ def availableByID(id):
 @app.route('/resources/available/<keyword>')
 def availableByKeyWord(keyword):
     return AvailableResourceHandler().getByKeyword(keyword)
-
 
 @app.route('/resources/details/<int:id>', methods=[GET, DELETE, PUT])
 def getResourceDetails(id):
