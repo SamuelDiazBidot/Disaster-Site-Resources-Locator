@@ -41,7 +41,7 @@ class RequestedResourceHandler:
         return result
 
     def getAll(self):
-        requests = RequestDAO().getAllRequests()
+        requests = RequestDAO().getAll()
         result_list = []
         for row in requests:
             result = self.build_request(row)
@@ -49,10 +49,21 @@ class RequestedResourceHandler:
         return jsonify(Requests = result_list), OK
 
     def getByID(self, id):
-        return jsonify(Request = resourcesRequested[0]), OK
+        requests = RequestDAO().getByID(id)
+        result_list = []
+        for row in requests:
+            result = self.build_request(row)
+            result_list.append(result)
+        return jsonify(Request = result_list), OK
 
-    def getByKeyword(self, keywords):
-        return jsonify(Request = resourcesRequested[0]), OK
+    #TODO: Find a way to make a query where i can filter by type, name or description
+    def getByKeyword(self, keyword):
+        requests = RequestDAO().getByNameOrDescription(keyword)
+        result_list = []
+        for row in requests:
+            result = self.build_request(row)
+            result_list.append(result)
+        return jsonify(Request = result_list), OK
     
     def getSortedByKeyword(self, keyword):
         return jsonify(Request = get_from_keyword_sorted_from_list(keyword, resourcesRequested, 'name')), OK

@@ -9,7 +9,6 @@ from handler.supplier import SupplierHandler
 from handler.statistics import StatisticsHandler
 from handler.utils import ClientCartInfo
 
-
 app = Flask(__name__)
 CORS(app)
 
@@ -48,6 +47,7 @@ def requested():
         return RequestedResourceHandler().add(request.json)
     else:
         if request.form:
+            #como es el form? form = type, keyword[] ???
             return RequestedResourceHandler().getByKeyword(request.form)
         else:
             return RequestedResourceHandler().getAll()
@@ -61,9 +61,10 @@ def requestedByID(id):
     else:
         return RequestedResourceHandler().getByID(id)
 
+# verificar si esto es para search pq ya hay uno en la linea 50
 @app.route('/resources/request/<keyword>')
 def requestByKeyword(keyword):
-    return RequestedResourceHandler().getSortedByKeyword(keyword)
+    return RequestedResourceHandler().getByKeyword(keyword)
 
 @app.route('/resources/available', methods=[GET, POST])
 def available():
