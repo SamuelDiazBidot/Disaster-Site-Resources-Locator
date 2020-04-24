@@ -2,9 +2,6 @@ from flask import jsonify
 from handler.utils import OK
 from dao.statistics import StatisticsDAO
 
-#TODO: make request from data base
-matches = {"matched" : 10}
-
 class StatisticsHandler:
     def build_most_used(self, row):
         result = {}
@@ -13,44 +10,62 @@ class StatisticsHandler:
         return result
 
     def getDailyStatistics(self):
-        top_requests = StatisticsDAO().mostRequestedDaily()
-        top_supplied = StatisticsDAO().mostSuppliedDaily()
+        dao = StatisticsDAO()
+        top_requests = dao.mostRequestedDaily()
+        top_supplied = dao.mostSuppliedDaily()
+        top_reservations = dao.mostReservedDaily()
         top_requests_list = []
         top_supplied_list = []
+        top_reservations_list = []
         for row in top_requests:
             result = self.build_most_used(row)
             top_requests_list.append(result)
         for row in top_supplied:
             result = self.build_most_used(row)
             top_supplied_list.append(result)
-        return jsonify(Most_Requested = top_requests_list, Most_Available = top_supplied_list, Matches = matches), OK
+        for row in top_reservations:
+            result = self.build_most_used(row)
+            top_reservations_list.append(result)
+        return jsonify(Most_Requested = top_requests_list, Most_Supplied= top_supplied_list, Most_Reserved = top_reservations_list), OK
 
     def getWeeklyStatistics(self):
-        top_requests = StatisticsDAO().mostRequestedWeekly()
-        top_supplied = StatisticsDAO().mostSuppliedWeekly()
+        dao = StatisticsDAO()
+        top_requests = dao.mostRequestedWeekly()
+        top_supplied = dao.mostSuppliedWeekly()
+        top_reservations = dao.mostReservedDaily()
         top_requests_list = []
         top_supplied_list = []
+        top_reservations_list = []
         for row in top_requests:
             result = self.build_most_used(row)
             top_requests_list.append(result)
         for row in top_supplied:
             result = self.build_most_used(row)
             top_supplied_list.append(result)
-        return jsonify(Most_Requested = top_requests_list, Most_Available = top_supplied_list, Matches = matches), OK
+        for row in top_reservations:
+            result = self.build_most_used(row)
+            top_reservations_list.append(result)
+        return jsonify(Most_Requested = top_requests_list, Most_Supplied = top_supplied_list, Most_Reserved = top_reservations_list), OK
 
     def getDistrictStatistics(self):
         districts = ["sanjuan", "bayamon", "arecibo", "mayaguez", "ponce", "guayama", "humacao", "carolina"]
         data = []
+        dao = StatisticsDAO()
         for distric in districts:
-            top_requested = StatisticsDAO().mostRequestedByDistrict(distric)
-            top_supplied = StatisticsDAO().mostSuppliedByDistrict(distric)
+            top_requested = dao.mostRequestedByDistrict(distric)
+            top_supplied = dao.mostSuppliedByDistrict(distric)
+            top_reservations= dao.mostReservedByDistrict(distric)
             top_requests_list = []
             top_supplied_list = []
+            top_reservations_list = []
             for row in top_requested:
                 result = self.build_most_used(row)
                 top_requests_list.append(result)
             for row in top_supplied:
                 result = self.build_most_used(row)
                 top_supplied_list.append(result)
-            data.append({"top_requested" : top_requests_list, "top_supplied" : top_supplied_list})
+            for row in top_reservations:
+                result = self.build_most_used(row)
+                top_reservations_list.append(result)
+            data.append({"Most_Requested" : top_requests_list, "Most_Supplied" : top_supplied_list, "Most_Reserved" : top_reservations_list})
         return  jsonify(San_Juan= data[0], Bayamon = data[1], Arecibo = data[2], Mayaguez = data[3], Ponce = data[4], Guayama = data[5], Humacao = data[6], Carolina = data[7]), OK

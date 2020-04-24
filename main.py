@@ -109,7 +109,6 @@ def getResourceDetails(id):
         return AvailableResourceHandler().getByID(id)
 
 # Statistics routes
-
 @app.route('/statistics/daily')
 def dailyStatistics():
     return StatisticsHandler().getDailyStatistics()

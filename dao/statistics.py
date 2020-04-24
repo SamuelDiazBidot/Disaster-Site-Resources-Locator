@@ -19,7 +19,6 @@ class StatisticsDAO:
         result = []
         for row in cursor:
             result.append(row)
-        self.conn.close()
         return result
 
     def mostSuppliedDaily(self):
@@ -30,7 +29,16 @@ class StatisticsDAO:
         result = []
         for row in cursor:
             result.append(row)
-        self.conn.close()
+        return result
+
+    def mostReservedDaily(self):
+        today = date.today()
+        cursor = self.conn.cursor()
+        query = " select count(resource_type), resource_type from reservations natural inner join supplies natural inner join resources where reservation_date=? group by resource_type order by count(resource_type) desc"
+        cursor.execute(query, (today,))
+        result = []
+        for row in cursor:
+            result.append(row)
         return result
 
     def mostRequestedWeekly(self):
@@ -43,7 +51,6 @@ class StatisticsDAO:
         result = []
         for row in cursor:
             result.append(row)
-        self.conn.close()
         return result
 
     def mostSuppliedWeekly(self):
@@ -56,7 +63,18 @@ class StatisticsDAO:
         result = []
         for row in cursor:
             result.append(row)
-        self.conn.close()
+        return result
+
+    def mostReservedWeekly(self):
+        today = date.today()
+        timeDelta = timedelta(days=7)
+        last_week = today - timeDelta 
+        cursor = self.conn.cursor()
+        query = " select count(resource_type), resource_type from reservations natural inner join supplies natural inner join resources where reservation_date>? and reservation_date<? group by resource_type order by count(resource_type) desc"
+        cursor.execute(query, (last_week, today,))
+        result = []
+        for row in cursor:
+            result.append(row)
         return result
 
     def mostRequestedByDistrict(self, district):
@@ -66,7 +84,6 @@ class StatisticsDAO:
         result = []
         for row in cursor:
             result.append(row)
-        self.conn.close()
         return result
 
     def mostSuppliedByDistrict(self, district):
@@ -76,5 +93,13 @@ class StatisticsDAO:
         result = []
         for row in cursor:
             result.append(row)
-        self.conn.close()
+        return result
+
+    def mostReservedByDistrict(self, district):
+        cursor = self.conn.cursor()
+        query = "with districts as (select user_name, district from users join address on users.address = address.address_id) select count(resource_type), resource_type, district from reservations natural inner join supplies natural inner join resources natural join districts where district=? group by resource_type order by count(resource_type) desc"
+        cursor.execute(query, (district,))
+        result = []
+        for row in cursor:
+            result.append(row)
         return result
