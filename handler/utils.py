@@ -120,7 +120,7 @@ def get_sorted_from_list_with_key(keyword: str, in_dict_list: List[Dict], dict_k
 
 class ClientCartInfo:
 
-    from handler.requester import requester    
+    from handler.requesters import requester    
     from random import Random
 
     res = None

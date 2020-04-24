@@ -22,9 +22,17 @@ class RequesterHandler:
         return jsonify(Requester = requester), CREATED
 
     def getAll(self):
-        requesters = RequestersDAO().getAllRequesters()
+        requesters = RequestersDAO().getAll()
         result_list = []
         for row in requesters:
             result = self.build_requester(row)
             result_list.append(result)
-        return jsonify(Requester = result_list), OK
+        return jsonify(Requesters = result_list), OK
+
+    def getByID(self, id):
+        requester = RequestersDAO().getByID(id)
+        result_list = []
+        for row in requester:
+            result = self.build_requester(row)
+            result_list.append(result)
+        return jsonify(Requesters = result_list), OK

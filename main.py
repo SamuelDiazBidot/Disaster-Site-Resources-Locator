@@ -4,7 +4,7 @@ from flask_cors import CORS
 from handler.availableResource import AvailableResourceHandler, resourcesAvailable
 from handler.requestedResource import RequestedResourceHandler
 from handler.administrator import AdministratorHandler
-from handler.requester import RequesterHandler
+from handler.requesters import RequesterHandler
 from handler.supplier import SupplierHandler
 from handler.statistics import StatisticsHandler
 from handler.utils import ClientCartInfo
@@ -39,6 +39,14 @@ def registerSupplier():
 @app.route('/requesters')
 def getAllRequesters():
     return RequesterHandler().getAll()
+
+@app.route('/requesters/<int:id>')
+def getRequesterByID(id):
+    return RequesterHandler().getByID(id)
+
+@app.route('/administrators')
+def getAllAdministrators():
+    return AdministratorHandler().getAll()
 
 # Resources routes
 @app.route('/resources/request', methods=[GET, POST])
