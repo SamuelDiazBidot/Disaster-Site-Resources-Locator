@@ -40,6 +40,14 @@ def registerSupplier():
 def getAllRequesters():
     return RequesterHandler().getAll()
 
+@app.route('/suppliers')
+def getAllSuppliers():
+    return SupplierHandler().getAll()
+
+@app.route('/suppliers/<int:id>')
+def getSuppliersById(id):
+    return SupplierHandler.getSupplierById(id)
+
 @app.route('/requesters/<int:id>')
 def getRequesterByID(id):
     return RequesterHandler().getByID(id)

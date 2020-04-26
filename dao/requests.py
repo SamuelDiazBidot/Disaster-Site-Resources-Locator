@@ -1,5 +1,7 @@
 import mariadb
 
+from handler.utils import DATABASECONFIG
+
 class RequestDAO:
     def __init__(self):
         config = {
@@ -9,6 +11,7 @@ class RequestDAO:
         }
 
         self.conn = mariadb.connect(**config, database = 'disaster_site_resource_locator_db')
+        # self.conn = mariadb.connect(**DATABASECONFIG)
 
     def getAll(self):
         cursor = self.conn.cursor()
