@@ -1,11 +1,12 @@
-from flask import Flask, jsonify, request 
+import decimal
+from flask import Flask, jsonify, request, json
 from flask_cors import CORS
 
 from handler.availableResource import AvailableResourceHandler, resourcesAvailable
 from handler.requestedResource import RequestedResourceHandler
 from handler.administrator import AdministratorHandler
 from handler.requesters import RequesterHandler
-from handler.supplier import SupplierHandler
+from handler.supplier import SupplierHandler, SupplyHandler
 from handler.statistics import StatisticsHandler
 from handler.utils import ClientCartInfo
 
@@ -81,6 +82,24 @@ def requestedByID(id):
 @app.route('/resources/request/<keyword>')
 def requestByKeyword(keyword):
     return RequestedResourceHandler().getByKeyword(keyword)
+
+@app.route('/resources/supply', methods=[GET])
+def getAllSupply():
+    return SupplyHandler.getAllSupply()
+
+@app.route('/resources/supply/<int:id>', methods=[GET])
+def getSupplyById(id):
+    return SupplyHandler.getSupplyById(id)
+
+@app.route('/resources/supply/desc<keyword>', method=[GET])
+def getSupplyByKeyWordDesc():
+    #TODO
+    pass
+
+@app.route('/resources/supply/name<keyword>', method=[GET])
+def getSupplyByNameKey():
+    #TODO
+    pass
 
 @app.route('/resources/available', methods=[GET, POST])
 def available():

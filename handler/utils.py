@@ -33,6 +33,8 @@ DEFAULTDATABASECONFIG = {
 
 }
 
+
+
 ''' Database Configuration'''
 
 
@@ -74,10 +76,8 @@ registered_addresses = [
     }
 
 ]
-
-
 PERSON_FORMAT = ['email', 'first_name', 'last_name', 'phone_number']
-# SUPPLYFORMAT = ['']
+SUPPLYFORMAT = ['supply_id', 'supply_quantity', 'supply_date', 'price', 'resource_id', 'supplier_id']
 
 
 def to_person_format(info_list: List):
@@ -86,6 +86,11 @@ def to_person_format(info_list: List):
         ret_list.append(dict(zip(PERSON_FORMAT, entry_tuple)))
     return ret_list
 
+def to_specified_format(info_list: List, des_format: List):
+    ret_list = []
+    for entry_tuple in info_list:
+        ret_list.append(dict(zip(des_format, entry_tuple)))
+    return ret_list
 
 def get_from_keyword_sorted_from_list(keyword: str, in_dict_list: List[Dict], key,  reserved: bool = None):
     return_list = []

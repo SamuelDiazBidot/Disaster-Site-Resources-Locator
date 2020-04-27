@@ -1,7 +1,7 @@
 from flask import jsonify
 
-from dao.supply import SupplierDAO
-from handler.utils import CREATED, OK, to_person_format, registered_addresses
+from dao.supply import SupplierDAO, SupplyDAO
+from handler.utils import CREATED, OK, to_person_format, registered_addresses, to_specified_format, SUPPLYFORMAT
 
 supplier = { "username" : "SuppliesRus"
            , "password" : "plainText"
@@ -24,3 +24,18 @@ class SupplierHandler:
         return jsonify(Suppliers=to_person_format(SupplierDAO.getById(id))), OK
         
     
+class SupplyHandler:
+    
+    @staticmethod
+    def getAllSupply():
+        return jsonify(Supply=to_specified_format(SupplyDAO.gettAll(), SUPPLYFORMAT)), OK
+
+    @staticmethod
+    def getSupplyById(id):
+        return jsonify(Supply=to_specified_format(SupplyDAO.getById(id), SUPPLYFORMAT)), OK
+
+    @staticmethod
+    def getSupplyByKeyword(keyword):
+        return jsonify(Supply=to_specified_format(SupplyDAO.getByKeyword(keyword), SUPPLYFORMAT)), OK
+
+        

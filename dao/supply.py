@@ -1,5 +1,5 @@
 import mariadb
-from handler.utils import DATABASECONFIG, PERSON_FORMAT, DEFAULTDATABASECONFIG
+from handler.utils import DATABASECONFIG, PERSON_FORMAT, DEFAULTDATABASECONFIG, SUPPLYFORMAT
 
 class SupplierDAO:
 
@@ -46,19 +46,23 @@ class SupplyDAO:
     def gettAll():
         conn = SupplyDAO.connectDB()
         cursor = conn.cursor()
-        query = 'select {}, {}, {}, {}, {} from supplies natural inner join resources'
+        query = 'select {}, {}, {}, {}, {}, {} from supplies natural inner join resources'.format(*SUPPLYFORMAT)
         cursor.execute(query)
         result = cursor.fetchall()
-        conne.close()
+        conn.close()
         return result
 
     @staticmethod
-    def getById(id):
-        #TODO
-        # conn = SupplyDAO.connectDB()
-        # cursor = conn.connect()
-        # query = ''
-        pass
+    def getById(id):        
+        conn = SupplyDAO.connectDB()
+        cursor = conn.cursor()        
+        print('vamo a tratat')
+        query = 'select {}, {}, {}, {}, {}, {} from supplies natural inner join resources where supply_id=?'.format(*SUPPLYFORMAT)        
+        print('Tamo bien')
+        cursor.execute(query,(id,))
+        result = cursor.fetchall()
+        conn.close()
+        return result
 
     @staticmethod
     def getByKeyword():
