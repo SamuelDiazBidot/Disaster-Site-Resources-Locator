@@ -14,8 +14,6 @@ class AdministratorDAO:
         cursor = self.conn.cursor()
         query = "select email, first_name, last_name, phone_number, permission_level from users natural inner join administrators"
         cursor.execute(query)
-        result = []
-        for row in cursor:
-            result.append(row)
+        result = cursor.fetchall()
         self.conn.close()
         return result

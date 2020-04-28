@@ -16,9 +16,7 @@ class RequestersDAO:
         cursor = self.conn.cursor()
         query = 'select email, first_name, last_name, phone_number from users natural inner join requesters'
         cursor.execute(query)
-        result = []
-        for row in cursor:
-            result.append(row)
+        result = cursor.fetchall()
         self.conn.close()
         return result
 
@@ -26,8 +24,6 @@ class RequestersDAO:
         cursor = self.conn.cursor()
         query = 'select email, first_name, last_name, phone_number from users natural inner join requesters where requester_id=?'
         cursor.execute(query, (id,))
-        result = []
-        for row in cursor:
-            result.append(row)
+        result = cursor.fetchall()
         self.conn.close()
         return result

@@ -17,9 +17,7 @@ class RequestDAO:
         cursor = self.conn.cursor()
         query = "select request_id, resource_type, resource_name, resource_description, request_quantity, request_date, sold from requests natural inner join resources"
         cursor.execute(query)
-        result = []
-        for row in cursor:
-            result.append(row)
+        result = cursor.fetchall()
         self.conn.close()
         return result
 
@@ -27,9 +25,7 @@ class RequestDAO:
         cursor = self.conn.cursor()
         query = "select request_id, resource_type, resource_name, resource_description, request_quantity, request_date, sold from requests natural inner join resources where request_id=?"
         cursor.execute(query, (id,))
-        result = []
-        for row in cursor:
-            result.append(row)
+        result = cursor.fetchall()
         self.conn.close()
         return result
 
@@ -38,8 +34,6 @@ class RequestDAO:
         cursor = self.conn.cursor()
         query = "select request_id, resource_type, resource_name, resource_description, request_quantity, request_date, sold from requests natural inner join resources where resource_description like ? or resource_name like ?"
         cursor.execute(query, (keyword,keyword))
-        result = []
-        for row in cursor:
-            result.append(row)
+        result = cursor.fetchall()
         self.conn.close()
         return result
