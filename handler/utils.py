@@ -94,6 +94,7 @@ def to_specified_format(info_list: List, des_format: List):
         ret_list.append(dict(zip(des_format, entry_tuple)))
     return ret_list
 
+# Not needed anymore
 def get_from_keyword_sorted_from_list(keyword: str, in_dict_list: List[Dict], key,  reserved: bool = None):
     return_list = []
     keyword = keyword.lower()
@@ -109,7 +110,7 @@ def get_from_keyword_sorted_from_list(keyword: str, in_dict_list: List[Dict], ke
     return sorted(return_list, key=lambda return_list: return_list[key], reverse=True)
 
 
-# TODO Quitarle lo del  sort, no hace nada en este caso, hace sort con el mismo key
+# Not needed anymore
 def get_sorted_from_list_with_key(keyword: str, in_dict_list: List[Dict], dict_key:str):
     return_list = []
     value_is_number = False

@@ -17,3 +17,11 @@ class AdministratorDAO:
         result = cursor.fetchall()
         self.conn.close()
         return result
+
+    def getByID(self, id):
+        cursor = self.conn.cursor()
+        query = "select email, first_name, last_name, phone_number, permission_level from users natural inner join administrators where administrator_id=?"
+        cursor.execute(query, (id,))
+        result = cursor.fetchall()
+        self.conn.close()
+        return result

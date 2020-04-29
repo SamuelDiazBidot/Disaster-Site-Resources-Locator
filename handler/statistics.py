@@ -5,12 +5,6 @@ from dao.statistics import StatisticsDAO
 AMOUNT_FORMAT = ['amount', 'type']
 
 class StatisticsHandler:
-    def build_most_used(self, row):
-        result = {}
-        result['amount'] = row[0]
-        result['type'] = row[1]
-        return result
-
     def getDailyStatistics(self):
         dao = StatisticsDAO()
         top_requests = dao.mostRequestedDaily()
@@ -19,15 +13,6 @@ class StatisticsHandler:
         top_requests_list = to_specified_format(top_requests, AMOUNT_FORMAT)
         top_supplied_list = to_specified_format(top_supplied, AMOUNT_FORMAT)
         top_reservations_list = to_specified_format(top_reservations, AMOUNT_FORMAT)
-        # for row in top_requests:
-            # result = self.build_most_used(row)
-            # top_requests_list.append(result)
-        # for row in top_supplied:
-            # result = self.build_most_used(row)
-            # top_supplied_list.append(result)
-        # for row in top_reservations:
-            # result = self.build_most_used(row)
-            # top_reservations_list.append(result)
         return jsonify(Most_Requested = top_requests_list, Most_Supplied= top_supplied_list, Most_Reserved = top_reservations_list), OK
 
     def getWeeklyStatistics(self):
@@ -38,15 +23,6 @@ class StatisticsHandler:
         top_requests_list = to_specified_format(top_requests, AMOUNT_FORMAT)
         top_supplied_list = to_specified_format(top_supplied, AMOUNT_FORMAT)
         top_reservations_list = to_specified_format(top_reservations, AMOUNT_FORMAT)
-        # for row in top_requests:
-            # result = self.build_most_used(row)
-            # top_requests_list.append(result)
-        # for row in top_supplied:
-            # result = self.build_most_used(row)
-            # top_supplied_list.append(result)
-        # for row in top_reservations:
-            # result = self.build_most_used(row)
-            # top_reservations_list.append(result)
         return jsonify(Most_Requested = top_requests_list, Most_Supplied = top_supplied_list, Most_Reserved = top_reservations_list), OK
 
     def getDistrictStatistics(self):
@@ -60,14 +36,5 @@ class StatisticsHandler:
             top_requests_list = to_specified_format(top_requested, AMOUNT_FORMAT)
             top_supplied_list = to_specified_format(top_supplied, AMOUNT_FORMAT)
             top_reservations_list = to_specified_format(top_reservations, AMOUNT_FORMAT)
-            # for row in top_requested:
-                # result = self.build_most_used(row)
-                # top_requests_list.append(result)
-            # for row in top_supplied:
-                # result = self.build_most_used(row)
-                # top_supplied_list.append(result)
-            # for row in top_reservations:
-                # result = self.build_most_used(row)
-                # top_reservations_list.append(result)
             data.append({"Most_Requested" : top_requests_list, "Most_Supplied" : top_supplied_list, "Most_Reserved" : top_reservations_list})
         return  jsonify(San_Juan= data[0], Bayamon = data[1], Arecibo = data[2], Mayaguez = data[3], Ponce = data[4], Guayama = data[5], Humacao = data[6], Carolina = data[7]), OK

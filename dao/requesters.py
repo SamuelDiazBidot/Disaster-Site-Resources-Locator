@@ -3,14 +3,14 @@ import mariadb
 from handler.utils import DATABASECONFIG
 class RequestersDAO:
     def __init__(self):
-        self.conn = mariadb.connect(**DATABASECONFIG)
-        # config = {
-        #     'host' : 'localhost',
-        #     'user' : 'monty',
-        #     'password' : 'python',
-        # }
+        # self.conn = mariadb.connect(**DATABASECONFIG)
+        config = {
+            'host' : 'localhost',
+            'user' : 'monty',
+            'password' : 'python',
+        }
 
-        # self.conn = mariadb.connect(**config, database = 'disaster_site_resource_locator_db')
+        self.conn = mariadb.connect(**config, database = 'disaster_site_resource_locator_db')
 
     def getAll(self):
         cursor = self.conn.cursor()

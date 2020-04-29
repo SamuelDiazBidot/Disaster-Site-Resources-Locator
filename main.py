@@ -73,7 +73,7 @@ def requested():
         return RequestedResourceHandler().add(request.json)
     else:
         if request.form:
-            #como es el form? form = type, keyword[] ???
+            # TODO: Parse the request form and decide to execute by keyword, by type or by keyword and type
             return RequestedResourceHandler().getByKeyword(request.form)
         else:
             return RequestedResourceHandler().getAll()
@@ -87,10 +87,10 @@ def requestedByID(id):
     else:
         return RequestedResourceHandler().getByID(id)
 
-# verificar si esto es para search pq ya hay uno en la linea 50
-@app.route('/resources/request/<keyword>')
-def requestByKeyword(keyword):
-    return RequestedResourceHandler().getByKeyword(keyword)
+# Redundant code 
+# @app.route('/resources/request/<keyword>')
+# def requestByKeyword(keyword):
+    # return RequestedResourceHandler().getByKeyword(keyword)
 
 @app.route('/resources/supply', methods=[GET])
 def getAllSupply():
@@ -116,6 +116,7 @@ def available():
         return AvailableResourceHandler().add(request.json)
     else:
         if request.form:            
+            # TODO: Parse the request form and decide to execute by keyword, by type or by keyword and type
             return AvailableResourceHandler().getByKeyword(request.form)
         else:
             return AvailableResourceHandler().getAll()
@@ -129,10 +130,10 @@ def availableByID(id):
         return AvailableResourceHandler().reserve(id)
     else:
         return AvailableResourceHandler().getByID(id)
-
-@app.route('/resources/available/<keyword>')
-def availableByKeyWord(keyword):
-    return AvailableResourceHandler().getByKeyword(keyword)
+# Redundat code
+# @app.route('/resources/available/<keyword>')
+# def availableByKeyWord(keyword):
+    # return AvailableResourceHandler().getByKeyword(keyword)
 
 @app.route('/resources/details/<int:id>', methods=[GET, DELETE, PUT])
 def getResourceDetails(id):
