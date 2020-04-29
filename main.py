@@ -13,6 +13,15 @@ from handler.utils import ClientCartInfo
 app = Flask(__name__)
 CORS(app)
 
+class JSonEnc(json.JSONEncoder):
+
+    def default(self, obj):        
+        if isinstance(obj, decimal.Decimal):
+            return str(obj)
+        return super(JSonEnc, self).default(obj)
+        
+app.json_encoder = JSonEnc
+
 DELETE = 'DELETE'
 PUT = 'PUT'
 POST = 'POST'
@@ -91,12 +100,12 @@ def getAllSupply():
 def getSupplyById(id):
     return SupplyHandler.getSupplyById(id)
 
-@app.route('/resources/supply/desc<keyword>', method=[GET])
-def getSupplyByKeyWordDesc():
-    #TODO
-    pass
+@app.route('/resources/supply/desc/<keyword>', methods=[GET])
+def getSupplyByKeyWordDesc(keyword):
+    return SupplyHandler.getSupplyByKeyword(keyword)
+    
 
-@app.route('/resources/supply/name<keyword>', method=[GET])
+@app.route('/resources/supply/name<keyword>', methods=[GET])
 def getSupplyByNameKey():
     #TODO
     pass

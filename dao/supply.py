@@ -55,16 +55,22 @@ class SupplyDAO:
     @staticmethod
     def getById(id):        
         conn = SupplyDAO.connectDB()
-        cursor = conn.cursor()        
-        print('vamo a tratat')
-        query = 'select {}, {}, {}, {}, {}, {} from supplies natural inner join resources where supply_id=?'.format(*SUPPLYFORMAT)        
-        print('Tamo bien')
+        cursor = conn.cursor()                
+        query = 'select {}, {}, {}, {}, {}, {} from supplies natural inner join resources where supply_id=?'.format(*SUPPLYFORMAT)                
         cursor.execute(query,(id,))
         result = cursor.fetchall()
         conn.close()
         return result
 
+    # TODO Test method
     @staticmethod
-    def getByKeyword():
-        #TODO 
-        pass
+    def getByKeyword(keyword):
+        conn = SupplyDAO.connectDB()
+        cursor = conn.cursor()
+        query = 'select {}, {}, {}, {}, {}, {}, resource_description from (select * from supplies natural inner join resources) as res where res.resource_description like \"%{}%\"'.format(*SUPPLYFORMAT, keyword)
+        print(query)
+        cursor.execute(query)
+        result = cursor.fetchall()
+        conn.close()
+        return result
+        

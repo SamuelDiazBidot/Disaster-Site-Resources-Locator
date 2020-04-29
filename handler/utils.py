@@ -79,6 +79,8 @@ registered_addresses = [
 PERSON_FORMAT = ['email', 'first_name', 'last_name', 'phone_number']
 SUPPLYFORMAT = ['supply_id', 'supply_quantity', 'supply_date', 'price', 'resource_id', 'supplier_id']
 
+SUPPLYSEARCHKEYWORDFORMAT = ['supply_id', 'supply_quantity', 'supply_date', 'price', 'resource_id', 'supplier_id', 'resource_description']
+
 
 def to_person_format(info_list: List):
     ret_list = []
