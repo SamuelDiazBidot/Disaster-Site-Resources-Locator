@@ -1,5 +1,5 @@
 from flask import jsonify
-from handler.utils import get_from_keyword_sorted_from_list, to_specified_format ,OK, ACCEPTED, CREATED, registered_addresses as adrs
+from handler.utils import get_from_keyword_sorted_from_list, to_specified_format ,OK, ACCEPTED, CREATED, NOT_FOUND, registered_addresses as adrs
 from dao.requests import RequestDAO
 
 resourcesRequested = [
@@ -28,7 +28,7 @@ resourcesRequested = [
 
 REQUEST_FORMAT = ['id', 'type', 'name', 'description', 'quantity', 'date', 'sold']
 
-class RequestedResourceHandler:
+class RequestHandler:
     def getAll(self):
         requests = RequestDAO().getAll()
         requests_list = to_specified_format(requests, REQUEST_FORMAT)
@@ -39,14 +39,20 @@ class RequestedResourceHandler:
         requests_list = to_specified_format(requests, REQUEST_FORMAT)
         return jsonify(Request = requests_list), OK
 
-    def getByKeyword(self, keyword):
-        requests = RequestDAO().getByNameOrDescription(keyword)
+    def search(self, args):
+        keyword = args.get("keyword")
+        resource_type = args.get("resource_type")
+        dao = RequestDAO()
+        if (len(args) == 2) and keyword and resource_type:
+            requests = dao.getByTypeOrKeyword(resource_type, keyword)
+        elif (len(args) == 1) and keyword:
+            requests = dao.getByKeyword(keyword)
+        elif (len(args) == 1) and resource_type:
+            requests = dao.getByType(resource_type)
+        else:
+            return jsonify(Error = 'Malformed query string'), NOT_FOUND
         requests_list = to_specified_format(requests, REQUEST_FORMAT)
-        return jsonify(Request = requests_list), OK
-    
-    # Redundant code
-    # def getSortedByKeyword(self, keyword):
-        # return jsonify(Request = get_from_keyword_sorted_from_list(keyword, resourcesRequested, 'name')), OK
+        return jsonify(Requests = requests_list), OK
 
     def add(self, json):
         return jsonify(Request = resourcesRequested[0]), CREATED

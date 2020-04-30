@@ -3,7 +3,7 @@ from flask import Flask, jsonify, request, json
 from flask_cors import CORS
 
 from handler.availableResource import AvailableResourceHandler, resourcesAvailable
-from handler.requestedResource import RequestedResourceHandler
+from handler.requests import RequestHandler
 from handler.administrator import AdministratorHandler
 from handler.requesters import RequesterHandler
 from handler.supplier import SupplierHandler, SupplyHandler
@@ -70,27 +70,21 @@ def getAllAdministrators():
 @app.route('/resources/request', methods=[GET, POST])
 def requested():
     if request.method == POST:
-        return RequestedResourceHandler().add(request.json)
+        return RequestHandler().add(request.json)
     else:
-        if request.form:
-            # TODO: Parse the request form and decide to execute by keyword, by type or by keyword and type
-            return RequestedResourceHandler().getByKeyword(request.form)
+        if request.args:
+            return RequestHandler().search(request.args)
         else:
-            return RequestedResourceHandler().getAll()
+            return RequestHandler().getAll()
 
 @app.route('/resources/request/<int:id>', methods=[GET, DELETE, PUT])
 def requestedByID(id):
     if request.method == DELETE:
-        return RequestedResourceHandler().delete(id)
+        return RequestHandler().delete(id)
     elif request.method == PUT:
-        return RequestedResourceHandler().update(id, request.form)
+        return RequestHandler().update(id, request.form)
     else:
-        return RequestedResourceHandler().getByID(id)
-
-# Redundant code 
-# @app.route('/resources/request/<keyword>')
-# def requestByKeyword(keyword):
-    # return RequestedResourceHandler().getByKeyword(keyword)
+        return RequestHandler().getByID(id)
 
 @app.route('/resources/supply', methods=[GET])
 def getAllSupply():
@@ -130,10 +124,6 @@ def availableByID(id):
         return AvailableResourceHandler().reserve(id)
     else:
         return AvailableResourceHandler().getByID(id)
-# Redundat code
-# @app.route('/resources/available/<keyword>')
-# def availableByKeyWord(keyword):
-    # return AvailableResourceHandler().getByKeyword(keyword)
 
 @app.route('/resources/details/<int:id>', methods=[GET, DELETE, PUT])
 def getResourceDetails(id):

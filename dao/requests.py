@@ -29,11 +29,28 @@ class RequestDAO:
         self.conn.close()
         return result
 
-    def getByNameOrDescription(self, keyword):
+    def getByKeyword(self, keyword):
         keyword = '%' + keyword + '%'
         cursor = self.conn.cursor()
         query = "select request_id, resource_type, resource_name, resource_description, request_quantity, request_date, sold from requests natural inner join resources where resource_description like ? or resource_name like ?"
         cursor.execute(query, (keyword,keyword))
+        result = cursor.fetchall()
+        self.conn.close()
+        return result
+
+    def getByType(self,resource_type):
+        cursor = self.conn.cursor()
+        query = "select request_id, resource_type, resource_name, resource_description, request_quantity, request_date, sold from requests natural inner join resources where resource_type=?"
+        cursor.execute(query, (resource_type,))
+        result = cursor.fetchall()
+        self.conn.close()
+        return result
+
+    def getByTypeOrKeyword(self, resource_type, keyword):
+        keyword = '%' + keyword + '%'
+        cursor = self.conn.cursor()
+        query = "select request_id, resource_type, resource_name, resource_description, request_quantity, request_date, sold from requests natural inner join resources where resource_description like ? or resource_name like ? or resource_type=?"
+        cursor.execute(query, (keyword, keyword, resource_type))
         result = cursor.fetchall()
         self.conn.close()
         return result
