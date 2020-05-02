@@ -1,7 +1,7 @@
 from flask import jsonify
 
 from dao.supply import SupplierDAO, SupplyDAO
-from handler.utils import CREATED, OK, to_person_format, registered_addresses, to_specified_format, SUPPLYFORMAT, SUPPLYSEARCHKEYWORDFORMAT
+from handler.utils import CREATED, OK, NOT_FOUND, to_person_format, registered_addresses, to_specified_format, SUPPLYFORMAT, SUPPLYSEARCHKEYWORDFORMAT, RESOURCEFORMAT
 
 supplier = { "username" : "SuppliesRus"
            , "password" : "plainText"
@@ -28,14 +28,39 @@ class SupplyHandler:
     
     @staticmethod
     def getAllSupply():
-        return jsonify(Supply=to_specified_format(SupplyDAO.gettAll(), SUPPLYFORMAT)), OK
+        return jsonify(Supplies=to_specified_format(SupplyDAO.gettAll(), RESOURCEFORMAT)), OK
 
     @staticmethod
     def getSupplyById(id):
-        return jsonify(Supply=to_specified_format(SupplyDAO.getById(id), SUPPLYFORMAT)), OK
+        return jsonify(Supplies=to_specified_format(SupplyDAO.getById(id), RESOURCEFORMAT)), OK
+         
 
     @staticmethod
     def getSupplyByKeyword(keyword):
-        return jsonify(Supply=to_specified_format(SupplyDAO.getByKeyword(keyword), SUPPLYSEARCHKEYWORDFORMAT)), OK
+        return SupplyDAO.getByKeyword(keyword)
+
+    
+    @staticmethod
+    def searchSupply(args):
+        if not args:
+            raise Exception
+        keyword = args.get('keyword')
+        res_type = args.get('resource_type')
+        if keyword and res_type:
+            result = SupplyDAO.getByKeywordAndType(res_type, keyword)
+        elif keyword and not res_type:
+            try:
+                print(result)
+            except:
+                print('Does not exist.')
+            result = SupplyDAO.getByKeyword(keyword)
+        elif res_type and not keyword:
+            result = SupplyDAO.getByType(res_type)
+        else:
+            return jsonify(Error='Malformed query string.'), NOT_FOUND
+
+        result = to_specified_format(result, RESOURCEFORMAT)
+
+        return jsonify(Supplies=result), OK
 
         

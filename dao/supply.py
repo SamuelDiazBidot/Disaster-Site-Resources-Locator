@@ -1,5 +1,5 @@
 import mariadb
-from handler.utils import DATABASECONFIG, PERSON_FORMAT, DEFAULTDATABASECONFIG, SUPPLYFORMAT
+from handler.utils import DATABASECONFIG, PERSON_FORMAT, DEFAULTDATABASECONFIG, SUPPLYFORMAT, RESOURCEFORMAT
 
 class SupplierDAO:
 
@@ -46,7 +46,8 @@ class SupplyDAO:
     def gettAll():
         conn = SupplyDAO.connectDB()
         cursor = conn.cursor()
-        query = 'select {}, {}, {}, {}, {}, {} from supplies natural inner join resources'.format(*SUPPLYFORMAT)
+        query = 'select {}, {}, {}, {}, {}, {}, {} from supplies natural inner join resources'.format(*RESOURCEFORMAT)
+        print(query)
         cursor.execute(query)
         result = cursor.fetchall()
         conn.close()
@@ -56,21 +57,43 @@ class SupplyDAO:
     def getById(id):        
         conn = SupplyDAO.connectDB()
         cursor = conn.cursor()                
-        query = 'select {}, {}, {}, {}, {}, {} from supplies natural inner join resources where supply_id=?'.format(*SUPPLYFORMAT)                
+        query = 'select {}, {}, {}, {}, {}, {} , {} from supplies natural inner join resources where supply_id=?'.format(*RESOURCEFORMAT)                
         cursor.execute(query,(id,))
         result = cursor.fetchall()
         conn.close()
         return result
 
-    # TODO Test method
+    
+    # TODO Test this method
     @staticmethod
     def getByKeyword(keyword):
         conn = SupplyDAO.connectDB()
         cursor = conn.cursor()
-        query = 'select {}, {}, {}, {}, {}, {}, resource_description from (select * from supplies natural inner join resources) as res where res.resource_description like \"%{}%\"'.format(*SUPPLYFORMAT, keyword)
-        print(query)
-        cursor.execute(query)
+        keyword = '%' + keyword + '%'                
+        query = 'select {}, {}, {}, {}, {}, {}, {}  from supplies natural inner join resources where resource_description like ? or resource_name like ?'.format(*RESOURCEFORMAT)        
+        cursor.execute(query, (keyword, keyword))
         result = cursor.fetchall()
         conn.close()
         return result
-        
+
+    # TODO Test this method
+    @staticmethod
+    def getByType(res_type):
+        conn = SupplyDAO.connectDB()
+        cursor = conn.cursor()
+        query = 'select {}, {}, {}, {}, {}, {}, {} from supplies natural inner join resources where resource_type=?'.format(*RESOURCEFORMAT)
+        cursor.execute(query, (res_type, ))
+        result = cursor.fetchall()
+        conn.close()
+        return result
+
+    # TODO Test this method
+    @staticmethod
+    def getByKeywordAndType(res_type, keyword):
+        conn = SupplyDAO.connectDB()
+        cursor = conn.cursor()
+        query = 'select {}, {}, {}, {}, {}, {}, {} from supplies natural inner join resources where resource_description like ? or resource_name like ? or resource_type=?'.format(*RESOURCEFORMAT)
+        cursor.execute(query, (keyword, keyword, res_type))
+        result = cursor.fetchall()
+        conn.close()
+        return result

@@ -86,23 +86,17 @@ def requestedByID(id):
     else:
         return RequestHandler().getByID(id)
 
-@app.route('/resources/supply', methods=[GET])
+@app.route('/resources/supplies', methods=[GET])
 def getAllSupply():
-    return SupplyHandler.getAllSupply()
+    if not request.args:
+        return SupplyHandler.getAllSupply()
+    else:
+        return SupplyHandler.searchSupply(request.args)
 
-@app.route('/resources/supply/<int:id>', methods=[GET])
+@app.route('/resources/supplies/<int:id>', methods=[GET])
 def getSupplyById(id):
     return SupplyHandler.getSupplyById(id)
 
-@app.route('/resources/supply/desc/<keyword>', methods=[GET])
-def getSupplyByKeyWordDesc(keyword):
-    return SupplyHandler.getSupplyByKeyword(keyword)
-    
-
-@app.route('/resources/supply/name<keyword>', methods=[GET])
-def getSupplyByNameKey():
-    #TODO
-    pass
 
 @app.route('/resources/available', methods=[GET, POST])
 def available():
