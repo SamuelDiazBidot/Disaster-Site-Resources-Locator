@@ -70,7 +70,7 @@ class SupplyDAO:
         conn = SupplyDAO.connectDB()
         cursor = conn.cursor()
         keyword = '%' + keyword + '%'                
-        query = 'select {}, {}, {}, {}, {}, {}, {}  from supplies natural inner join resources where resource_description like ? or resource_name like ?'.format(*RESOURCEFORMAT)        
+        query = 'select {}, {}, {}, {}, {}, {}, {}  from supplies natural inner join resources where resource_description like ? or resource_name like ? order by resource_name'.format(*RESOURCEFORMAT)        
         cursor.execute(query, (keyword, keyword))
         result = cursor.fetchall()
         conn.close()
@@ -81,7 +81,7 @@ class SupplyDAO:
     def getByType(res_type):
         conn = SupplyDAO.connectDB()
         cursor = conn.cursor()
-        query = 'select {}, {}, {}, {}, {}, {}, {} from supplies natural inner join resources where resource_type=?'.format(*RESOURCEFORMAT)
+        query = 'select {}, {}, {}, {}, {}, {}, {} from supplies natural inner join resources where resource_type=? order by resource_name'.format(*RESOURCEFORMAT)
         cursor.execute(query, (res_type, ))
         result = cursor.fetchall()
         conn.close()
@@ -92,7 +92,7 @@ class SupplyDAO:
     def getByKeywordAndType(res_type, keyword):
         conn = SupplyDAO.connectDB()
         cursor = conn.cursor()
-        query = 'select {}, {}, {}, {}, {}, {}, {} from supplies natural inner join resources where resource_description like ? or resource_name like ? or resource_type=?'.format(*RESOURCEFORMAT)
+        query = 'select {}, {}, {}, {}, {}, {}, {} from supplies natural inner join resources where resource_description like ? or resource_name like ? or resource_type=? order by resource_name'.format(*RESOURCEFORMAT)
         cursor.execute(query, (keyword, keyword, res_type))
         result = cursor.fetchall()
         conn.close()

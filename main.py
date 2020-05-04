@@ -67,7 +67,7 @@ def getAllAdministrators():
     return AdministratorHandler().getAll()
 
 # Resources routes
-@app.route('/resources/request', methods=[GET, POST])
+@app.route('/resources/requests', methods=[GET, POST])
 def requested():
     if request.method == POST:
         return RequestHandler().add(request.json)
@@ -77,7 +77,7 @@ def requested():
         else:
             return RequestHandler().getAll()
 
-@app.route('/resources/request/<int:id>', methods=[GET, DELETE, PUT])
+@app.route('/resources/requests/<int:id>', methods=[GET, DELETE, PUT])
 def requestedByID(id):
     if request.method == DELETE:
         return RequestHandler().delete(id)

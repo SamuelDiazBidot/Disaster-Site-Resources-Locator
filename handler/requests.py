@@ -26,7 +26,8 @@ resourcesRequested = [
     }
 ]
 
-REQUEST_FORMAT = ['id', 'type', 'name', 'description', 'quantity', 'date', 'sold']
+REQUEST_FORMAT = ['id', 'type', 'name', 'description', 'quantity', 'date']
+SELECTED_REQUEST_FORMAT = ['id', 'type', 'name', 'description', 'quantity', 'date', 'first_name', 'last_name', 'phone_number','country', 'city', 'street']
 
 class RequestHandler:
     def getAll(self):
@@ -36,7 +37,7 @@ class RequestHandler:
 
     def getByID(self, id):
         requests = RequestDAO().getByID(id)
-        requests_list = to_specified_format(requests, REQUEST_FORMAT)
+        requests_list = to_specified_format(requests, SELECTED_REQUEST_FORMAT)
         return jsonify(Request = requests_list), OK
 
     def search(self, args):
