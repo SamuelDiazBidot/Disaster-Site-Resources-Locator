@@ -2,6 +2,7 @@ import decimal
 from flask import Flask, jsonify, request, json
 from flask_cors import CORS
 
+from handler.resources import ResourcesHandler
 from handler.availableResource import AvailableResourceHandler, resourcesAvailable
 from handler.requests import RequestHandler
 from handler.administrator import AdministratorHandler
@@ -69,6 +70,14 @@ def getAllAdministrators():
     return AdministratorHandler().getAll()
 
 # Resources routes
+@app.route('/resources')
+def resources():
+    return ResourcesHandler().getAll()
+
+@app.route('/resources/<int:id>')
+def resourcesByID(id):
+    return ResourcesHandler().getByID(id)
+
 @app.route('/resources/requests', methods=[GET, POST])
 def requested():
     if request.method == POST:
@@ -99,37 +108,36 @@ def getAllSupply():
 def getSupplyById(id):
     return SupplyHandler.getSupplyById(id)
 
+#Creo que ya no es necesario pq es lo mismo que supplies ^
+# @app.route('/resources/available', methods=[GET, POST])
+# def available():
+    # if request.method == POST:
+        # return AvailableResourceHandler().add(request.json)
+    # else:
+        # if request.form:            
+            # return AvailableResourceHandler().getByKeyword(request.form)
+        # else:
+            # return AvailableResourceHandler().getAll()
 
-@app.route('/resources/available', methods=[GET, POST])
-def available():
-    if request.method == POST:
-        return AvailableResourceHandler().add(request.json)
-    else:
-        if request.form:            
-            # TODO: Parse the request form and decide to execute by keyword, by type or by keyword and type
-            return AvailableResourceHandler().getByKeyword(request.form)
-        else:
-            return AvailableResourceHandler().getAll()
-
-@app.route('/resources/available/<int:id>', methods=[GET, DELETE, PUT])
-def availableByID(id):
-    if request.method == DELETE:
-        return AvailableResourceHandler().delete(id)
-    elif request.method == PUT:
+# @app.route('/resources/available/<int:id>', methods=[GET, DELETE, PUT])
+# def availableByID(id):
+    # if request.method == DELETE:
+        # return AvailableResourceHandler().delete(id)
+    # elif request.method == PUT:
         # AvailableResourceHandler().update(id, request.form)
-        return AvailableResourceHandler().reserve(id)
-    else:
-        return AvailableResourceHandler().getByID(id)
+        # return AvailableResourceHandler().reserve(id)
+    # else:
+        # return AvailableResourceHandler().getByID(id)
 
-@app.route('/resources/details/<int:id>', methods=[GET, DELETE, PUT])
-def getResourceDetails(id):
-    if request.method == DELETE:
-        return AvailableResourceHandler().delete(id)
-    elif request.method == PUT:
+# @app.route('/resources/details/<int:id>', methods=[GET, DELETE, PUT])
+# def getResourceDetails(id):
+    # if request.method == DELETE:
+        # return AvailableResourceHandler().delete(id)
+    # elif request.method == PUT:
         # AvailableResourceHandler().update(id, request.form)
-        return AvailableResourceHandler().reserve(id)
-    else:
-        return AvailableResourceHandler().getByID(id)
+        # return AvailableResourceHandler().reserve(id)
+    # else:
+        # return AvailableResourceHandler().getByID(id)
 
 # Reservations and Purchases
 @app.route('/reservations')
