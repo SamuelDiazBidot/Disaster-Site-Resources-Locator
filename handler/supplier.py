@@ -26,13 +26,16 @@ class SupplierHandler:
     
 class SupplyHandler:
     
+    FRONTEND_FORMAT = ['id', 'type', 'name', 'description', 'quantity', 'date']
+    SELECTED_SUPPLY_FORMAT = ['id', 'type', 'name', 'description', 'quantity', 'date', 'first_name', 'last_name', 'phone_number','country', 'city', 'street']
+
     @staticmethod
     def getAllSupply():
-        return jsonify(Supplies=to_specified_format(SupplyDAO.gettAll(), RESOURCEFORMAT)), OK
+        return jsonify(Supplies=to_specified_format(SupplyDAO.gettAll(), SupplyHandler.FRONTEND_FORMAT)), OK
 
     @staticmethod
     def getSupplyById(id):
-        return jsonify(Supplies=to_specified_format(SupplyDAO.getById(id), RESOURCEFORMAT)), OK
+        return jsonify(Supplies=to_specified_format(SupplyDAO.getById(id), SupplyHandler.SELECTED_SUPPLY_FORMAT)), OK
          
 
     @staticmethod
@@ -59,7 +62,7 @@ class SupplyHandler:
         else:
             return jsonify(Error='Malformed query string.'), NOT_FOUND
 
-        result = to_specified_format(result, RESOURCEFORMAT)
+        result = to_specified_format(result, SupplyHandler.FRONTEND_FORMAT)
 
         return jsonify(Supplies=result), OK
 
