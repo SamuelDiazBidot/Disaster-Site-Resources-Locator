@@ -2,6 +2,7 @@ from typing import List
 from typing import Dict
 from flask import jsonify
 from copy import deepcopy
+import mariadb
 import re
 
 ''' Status Codes '''
@@ -21,7 +22,7 @@ DATABASECONFIG =  {
     'host':'localhost',
     'user':'hector',
     'password':'pollo',
-    'database':'test'
+    'database':'project_db'
 
 }
 
@@ -155,6 +156,14 @@ def get_sorted_from_list_with_key(keyword: str, in_dict_list: List[Dict], dict_k
             return_list.append(entry)
     
     return return_list
+
+
+def generic_db_connect():
+    try:
+        conn = mariadb.connect(**DATABASECONFIG)
+    except:
+        conn = mariadb.connect(**DEFAULTDATABASECONFIG)
+    return conn
 
 
 
