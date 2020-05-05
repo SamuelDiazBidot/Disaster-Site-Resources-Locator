@@ -8,9 +8,9 @@ class PurchasesHandler:
     def getAll(self):
         purchases = PurchasesDAO().getAll()
         purchases_list = to_specified_format(purchases, PURCHASE_FORMAT)
-        return jsonify(Reservations = purchases_list), OK
+        return jsonify(Purchases = purchases_list), OK
 
     def getByID(self, id):
         purchase = PurchasesDAO().getByID(id)
         purchase_list = to_specified_format(purchase, PURCHASE_FORMAT)
-        return jsonify(Reservation = purchase_list), OK
+        return jsonify(Purchases = purchase_list), OK
