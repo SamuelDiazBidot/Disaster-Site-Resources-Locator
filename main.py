@@ -8,6 +8,8 @@ from handler.administrator import AdministratorHandler
 from handler.requesters import RequesterHandler
 from handler.supplier import SupplierHandler, SupplyHandler
 from handler.statistics import StatisticsHandler
+from handler.reservations import ReservationsHandler
+from handler.purchases import PurchasesHandler
 from handler.utils import ClientCartInfo
 
 app = Flask(__name__)
@@ -128,6 +130,23 @@ def getResourceDetails(id):
         return AvailableResourceHandler().reserve(id)
     else:
         return AvailableResourceHandler().getByID(id)
+
+# Reservations and Purchases
+@app.route('/reservations')
+def reservations():
+    return ReservationsHandler().getAll()
+
+@app.route('/reservations/<int:id>')
+def reservationsByID(id):
+    return ReservationsHandler().getByID(id)
+
+@app.route('/purchases')
+def purchases():
+    return PurchasesHandler().getAll()
+
+@app.route('/purchases/<int:id>')
+def purchasesByID(id):
+    return PurchasesHandler().getByID(id)
 
 # Statistics routes
 @app.route('/statistics/daily')
