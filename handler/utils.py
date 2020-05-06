@@ -85,6 +85,20 @@ SUPPLYSEARCHKEYWORDFORMAT = ['supply_id', 'supply_quantity', 'supply_date', 'pri
 RESOURCEFORMAT = ['supply_id', 'resource_type', 'resource_name', 'resource_description', 'supply_quantity', 'supply_date']
 
 
+def make_google_map_link(latitude, longitude):
+    location = 'http://maps.google.com/maps?q=loc:'
+    return location + str(latitude) + '.' + str(longitude)
+
+def append_loc_to_list(tuple_lst):
+    tp_lst = []
+    for entry in tuple_lst:
+        tmp = list(entry)
+        lat_lon = tmp[-2:]
+        tmp = tmp[:-2]
+        tmp.append(make_google_map_link(lat_lon[0], lat_lon[1]))
+        tp_lst.append(tuple(tmp))
+    return tp_lst
+
 def to_person_format(info_list: List):
     ret_list = []
     for entry_tuple in info_list:

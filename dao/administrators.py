@@ -26,3 +26,12 @@ class AdministratorDAO:
         result = cursor.fetchall()
         self.conn.close()
         return result
+
+    def getAllUsers(self):
+        cursor = self.conn.cursor()
+        query = 'select email, first_name, last_name, phone_number from users'
+        cursor.execute(query)
+        result = cursor.fetchall()
+        self.conn.close()
+        return result
+    

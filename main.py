@@ -49,6 +49,11 @@ def registerSupplier():
     return SupplierHandler().register(request.json)
 
 # User routes
+
+@app.route('/users')
+def getAllUsers():
+    return AdministratorHandler().getAllUsers()
+
 @app.route('/requesters')
 def getAllRequesters():
     return RequesterHandler().getAll()

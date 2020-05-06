@@ -21,3 +21,6 @@ class AdministratorHandler:
         administrator = AdministratorDAO().getAll()
         administrator_list = to_specified_format(administrator, ADMINISTARTOR_FORMAT)
         return jsonify(Administrators = administrator_list), OK
+
+    def getAllUsers(self):
+        return jsonify(Users=to_specified_format(AdministratorDAO().getAllUsers(), ADMINISTARTOR_FORMAT[:-1])), OK
