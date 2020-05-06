@@ -20,7 +20,7 @@ class PurchasesDAO:
 
     def getByID(self, id):
         cursor = self.conn.cursor()
-        query = 'select purchase_id, purchase_date, supply_id, requester_id from purchases where purchase_id = ?'
+        query = 'select purchase_id, purchase_date, supply_id, requester_id from purchases where requester_id = ?'
         cursor.execute(query, (id,))
         result = cursor.fetchall()
         self.conn.close()

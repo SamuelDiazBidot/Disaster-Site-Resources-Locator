@@ -6,7 +6,7 @@ administrator = { "username" : "admin"
                 , "password" : "password"
                 }
 
-ADMINISTARTOR_FORMAT = ['emai', 'first_name', 'last_name', 'phone_number', 'permission_level']
+ADMINISTARTOR_FORMAT = ['email', 'first_name', 'last_name', 'phone_number', 'permission_level']
 
 class AdministratorHandler:
     def register(self, json):

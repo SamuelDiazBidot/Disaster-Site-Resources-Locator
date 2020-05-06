@@ -21,7 +21,7 @@ class ReservationsDAO:
 
     def getByID(self, id):
         cursor = self.conn.cursor()
-        query = 'select reservation_id, reservation_date, reservation_quantity, supply_id, requester_id from reservations where reservation_id = ?'
+        query = 'select reservation_id, reservation_date, reservation_quantity, supply_id, requester_id from reservations where requester_id = ?'
         cursor.execute(query, (id,))
         result = cursor.fetchall()
         self.conn.close()
