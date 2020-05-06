@@ -108,37 +108,6 @@ def getAllSupply():
 def getSupplyById(id):
     return SupplyHandler.getSupplyById(id)
 
-#Creo que ya no es necesario pq es lo mismo que supplies ^
-# @app.route('/resources/available', methods=[GET, POST])
-# def available():
-    # if request.method == POST:
-        # return AvailableResourceHandler().add(request.json)
-    # else:
-        # if request.form:            
-            # return AvailableResourceHandler().getByKeyword(request.form)
-        # else:
-            # return AvailableResourceHandler().getAll()
-
-# @app.route('/resources/available/<int:id>', methods=[GET, DELETE, PUT])
-# def availableByID(id):
-    # if request.method == DELETE:
-        # return AvailableResourceHandler().delete(id)
-    # elif request.method == PUT:
-        # AvailableResourceHandler().update(id, request.form)
-        # return AvailableResourceHandler().reserve(id)
-    # else:
-        # return AvailableResourceHandler().getByID(id)
-
-# @app.route('/resources/details/<int:id>', methods=[GET, DELETE, PUT])
-# def getResourceDetails(id):
-    # if request.method == DELETE:
-        # return AvailableResourceHandler().delete(id)
-    # elif request.method == PUT:
-        # AvailableResourceHandler().update(id, request.form)
-        # return AvailableResourceHandler().reserve(id)
-    # else:
-        # return AvailableResourceHandler().getByID(id)
-
 # Reservations and Purchases
 @app.route('/reservations')
 def reservations():
