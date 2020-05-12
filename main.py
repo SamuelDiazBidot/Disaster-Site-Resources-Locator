@@ -36,8 +36,9 @@ def greetings():
     return "Welcome to the Disaster Site Resource Locator"
 
 # Register routes
-@app.route('/register/administrator')
+@app.route('/register/administrator', methods=[POST])
 def registerAdmin():
+    print(request.json)
     return AdministratorHandler().register(request.json)
 
 @app.route('/register/requester')

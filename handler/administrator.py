@@ -10,6 +10,7 @@ ADMINISTARTOR_FORMAT = ['email', 'first_name', 'last_name', 'phone_number', 'per
 
 class AdministratorHandler:
     def register(self, json):
+        administrator = AdministratorDAO().add(json)
         return jsonify(Administrator = administrator), CREATED
 
     def getAll(self):
