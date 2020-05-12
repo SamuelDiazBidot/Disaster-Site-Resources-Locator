@@ -3,12 +3,6 @@ from handler.utils import generic_db_connect
 
 class AdministratorDAO:
     def __init__(self):
-        config = {
-            'host' : 'localhost',
-            'user' : 'monty',
-            'password' : 'python',
-        }
-
         self.conn = generic_db_connect()
 
     def getAll(self):
@@ -42,9 +36,6 @@ class AdministratorDAO:
         result = cursor.fetchall()
         self.conn.close()
         return result
-
-    def update(self, id, json):
-        pass
     
     def getAllUsers(self):
        cursor = self.conn.cursor()

@@ -11,7 +11,7 @@ from handler.supplier import SupplierHandler, SupplyHandler
 from handler.statistics import StatisticsHandler
 from handler.reservations import ReservationsHandler
 from handler.purchases import PurchasesHandler
-from handler.utils import ClientCartInfo
+# from handler.utils import ClientCartInfo
 
 app = Flask(__name__)
 CORS(app)
@@ -41,16 +41,15 @@ def registerAdmin():
     print(request.json)
     return AdministratorHandler().register(request.json)
 
-@app.route('/register/requester')
+@app.route('/register/requester', methods=[POST])
 def registerRequester():
     return RequesterHandler().register(request.json)
 
-@app.route('/register/supplier')
+@app.route('/register/supplier', methods=[POST])
 def registerSupplier():
     return SupplierHandler().register(request.json)
 
 # User routes
-
 @app.route('/users')
 def getAllUsers():
     return AdministratorHandler().getAllUsers()
@@ -76,9 +75,12 @@ def getAllAdministrators():
     return AdministratorHandler().getAll()
 
 # Resources routes
-@app.route('/resources')
+@app.route('/resources', methods=[GET,POST])
 def resources():
-    return ResourcesHandler().getAll()
+    if request.method == POST:
+        return ResourcesHandler().add(request.json)
+    else:
+        return ResourcesHandler().getAll()
 
 @app.route('/resources/<int:id>')
 def resourcesByID(id):
@@ -145,6 +147,6 @@ def districtStatistics():
     return StatisticsHandler().getDistrictStatistics()
 
 # Client cart route
-@app.route('/requester/cart')
-def get_client_cart():
-    return ClientCartInfo(resourcesAvailable).get_current_client_car()
+# @app.route('/requester/cart')
+# def get_client_cart():
+    # return ClientCartInfo(resourcesAvailable).get_current_client_car()

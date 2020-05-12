@@ -184,42 +184,42 @@ def generic_db_connect():
 # Class used to represent information of user for the clioent cart for
 # the first stage, might change later
 
-class ClientCartInfo:
+# class ClientCartInfo:
 
-    from handler.requesters import requester    
-    from random import Random
+#     from handler.requesters import requester    
+#     from random import Random
 
-    res = None
+#     res = None
 
-    chooser = Random()
+#     chooser = Random()
 
-    def __init__(self, res_list):
-        self.res = res_list
-        self.current_cart = []
-        self.current_client = deepcopy(ClientCartInfo.requester)
-        self.current_client.pop('password')
-        number_of_res = ClientCartInfo.chooser.randint(0, 100)
-        for i in range(number_of_res):
-            self.current_cart.append(ClientCartInfo.chooser.choice(res_list))
-        self.set_client_cart_info()
+#     def __init__(self, res_list):
+#         self.res = res_list
+#         self.current_cart = []
+#         self.current_client = deepcopy(ClientCartInfo.requester)
+#         self.current_client.pop('password')
+#         number_of_res = ClientCartInfo.chooser.randint(0, 100)
+#         for i in range(number_of_res):
+#             self.current_cart.append(ClientCartInfo.chooser.choice(res_list))
+#         self.set_client_cart_info()
 
 
-    def set_client_cart_info(self):
-        self.current_client['want_to_buy'] = self.sort_res_list()
-        total_cost_resources = 0.0
-        for item in self.current_cart:
-            total_cost_resources += item['price']
-        self.current_client['resource_cost'] = total_cost_resources
+#     def set_client_cart_info(self):
+#         self.current_client['want_to_buy'] = self.sort_res_list()
+#         total_cost_resources = 0.0
+#         for item in self.current_cart:
+#             total_cost_resources += item['price']
+#         self.current_client['resource_cost'] = total_cost_resources
 
-    def sort_res_list(self):
-        sorted_res_list = []
-        for item in self.current_cart:
-            if 'quantity' in item:
-                item['quantity'] += 1
-            else:
-                item['quantity'] = 1
-                sorted_res_list.append(item)
-        return sorted(sorted_res_list, key=lambda sorted_res_list: sorted_res_list['name'].lower())
+#     def sort_res_list(self):
+#         sorted_res_list = []
+#         for item in self.current_cart:
+#             if 'quantity' in item:
+#                 item['quantity'] += 1
+#             else:
+#                 item['quantity'] = 1
+#                 sorted_res_list.append(item)
+#         return sorted(sorted_res_list, key=lambda sorted_res_list: sorted_res_list['name'].lower())
                 
-    def get_current_client_car(self):        
-        return jsonify(ClientCart=self.current_client), OK
+#     def get_current_client_car(self):        
+#         return jsonify(ClientCart=self.current_client), OK

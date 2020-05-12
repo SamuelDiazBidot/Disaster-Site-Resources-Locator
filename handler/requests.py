@@ -44,6 +44,7 @@ class RequestHandler:
         keyword = args.get("keyword")
         resource_type = args.get("resource_type")
         dao = RequestDAO()
+        requests = []
         if (len(args) == 2) and keyword and resource_type:
             requests = dao.getByTypeOrKeyword(resource_type, keyword)
         elif (len(args) == 1) and keyword:
@@ -56,7 +57,9 @@ class RequestHandler:
         return jsonify(Requests = requests_list), OK
 
     def add(self, json):
-        return jsonify(Request = resourcesRequested[0]), CREATED
+        request = RequestDAO().add(json)
+        request_list = to_specified_format(request, SELECTED_REQUEST_FORMAT)
+        return jsonify(Request = request_list), CREATED
 
     def delete(self, id):
         return jsonify(Request = resourcesRequested[0]), OK

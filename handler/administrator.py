@@ -2,10 +2,6 @@ from flask import jsonify
 from handler.utils import to_specified_format ,CREATED, OK
 from dao.administrators import AdministratorDAO
 
-administrator = { "username" : "admin"
-                , "password" : "password"
-                }
-
 ADMINISTARTOR_FORMAT = ['email', 'first_name', 'last_name', 'phone_number', 'permission_level']
 
 class AdministratorHandler:
@@ -19,7 +15,7 @@ class AdministratorHandler:
         return jsonify(Administrators = administrators_list), OK
 
     def getByID(self, id):
-        administrator = AdministratorDAO().getAll()
+        administrator = AdministratorDAO().getByID(id)
         administrator_list = to_specified_format(administrator, ADMINISTARTOR_FORMAT)
         return jsonify(Administrators = administrator_list), OK
 
