@@ -33,3 +33,10 @@ class PurchasesDAO:
         reservation_id = cursor.lastrowid
         self.conn.close()
         return reservation_id
+
+    def delete(self, id):
+        cursor = self.conn.cursor()
+        query = 'delete from purchases where purchase_id=?'
+        cursor.execute(query, (id,))
+        self.conn.close()
+        return

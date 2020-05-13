@@ -123,9 +123,12 @@ def reservations():
         return ReservationsHandler().add(request.json)
     return ReservationsHandler().getAll()
 
-@app.route('/reservations/<int:id>')
+@app.route('/reservations/<int:id>', methods = [DELETE, GET])
 def reservationsByID(id):
-    return ReservationsHandler().getByID(id)
+    if request.method == DELETE:
+        return ReservationsHandler().delete(id)
+    else:
+        return ReservationsHandler().getByID(id)
 
 @app.route('/purchases', methods = [POST, GET])
 def purchases():
@@ -134,9 +137,12 @@ def purchases():
     else:
         return PurchasesHandler().getAll()
 
-@app.route('/purchases/<int:id>')
+@app.route('/purchases/<int:id>', methods = [DELETE, GET])
 def purchasesByID(id):
-    return PurchasesHandler().getByID(id)
+    if request.method == DELETE:
+        return ReservationsHandler().delete(id)
+    else:
+        return PurchasesHandler().getByID(id)
 
 # Statistics routes
 @app.route('/statistics/daily')

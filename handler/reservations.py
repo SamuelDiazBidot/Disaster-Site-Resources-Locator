@@ -1,5 +1,5 @@
 from flask import jsonify
-from handler.utils import to_specified_format, OK, CREATED, BAD_REQUEST
+from handler.utils import to_specified_format, OK, CREATED, BAD_REQUEST, NOT_FOUND
 from dao.reservations import ReservationsDAO
 
 RESERVATION_FORMAT = ['id', 'date', 'quantity', 'supply_id', 'requester_id']
@@ -19,8 +19,15 @@ class ReservationsHandler:
         if json['date'] and json['quantity'] and json['supply_id'] and json['requester_id']:
             reservation_id = ReservationsDAO().add(json)
             reservation = [(reservation_id, json['date'], json['quantity'], json['supply_id'], json['requester_id'])]
-            print(reservation)
             reservation_list = to_specified_format(reservation, RESERVATION_FORMAT)
             return jsonify(Reservation = reservation_list), CREATED
         else:
             return jsonify(Error = 'Unexpected attributes in post request'), BAD_REQUEST
+
+    def delete(self, id):
+        dao = ReservationsDAO()
+        if dao.getByID(id):
+            dao.delete(id)
+            return jsonify(DeleteStatus = 'OK'), OK
+        else:
+            return jsonify(Error = 'Part not found'), NOT_FOUND

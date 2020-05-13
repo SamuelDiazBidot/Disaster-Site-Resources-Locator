@@ -6,9 +6,12 @@ RESOURCE_FORMAT = ['id', 'type', 'name', 'description']
 
 class ResourcesHandler:
     def add(self, json):
-        resource = ResourcesDAO().add(json)
-        resource_list = to_specified_format(resource, RESOURCE_FORMAT)
-        return jsonify(Reservation = resource_list), CREATED
+        if json['type'] and json['name'] and json['description']:
+            resource = ResourcesDAO().add(json)
+            resource_list = to_specified_format(resource, RESOURCE_FORMAT)
+            return jsonify(Reservation = resource_list), CREATED
+        else:
+            return jsonify(Error = 'Unexpected attributes in post request'), BAD_REQUEST
 
     def getAll(self):
         resources = ResourcesDAO().getAll()

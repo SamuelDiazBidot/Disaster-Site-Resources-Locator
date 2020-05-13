@@ -1,5 +1,5 @@
 from flask import jsonify
-from handler.utils import to_specified_format, OK, CREATED, BAD_REQUEST
+from handler.utils import to_specified_format, OK, CREATED, BAD_REQUEST, NOT_FOUND
 from dao.purchases import PurchasesDAO
 
 PURCHASE_FORMAT = ['id', 'date', 'supply_id', 'requester_id']
@@ -23,3 +23,11 @@ class PurchasesHandler:
             return jsonify(Reservation = purchase_list), CREATED
         else:
             return jsonify(Error = 'Unexpected attributes in post request'), BAD_REQUEST
+
+    def delete(self, id):
+        dao = PurchasesDAO()
+        if dao.getByID(id):
+            dao.delete(id)
+            return jsonify(DeleteStatus = 'OK'), OK
+        else:
+            return jsonify(Error = 'Part not found'), NOT_FOUND

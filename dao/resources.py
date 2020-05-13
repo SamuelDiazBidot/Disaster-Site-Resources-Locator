@@ -27,7 +27,7 @@ class ResourcesDAO:
         self.conn.close()
         return result
 
-    def add(self, id):
+    def add(self, json):
         cursor = self.conn.cursor()
         query = "insert into resources (resource_type, resource_name, resource_description, sold) values (?,?,?,?)"
         cursor.execute(query, (json['type'], json['name'], json['description'], False))
