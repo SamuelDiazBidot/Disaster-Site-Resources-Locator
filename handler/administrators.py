@@ -1,13 +1,17 @@
 from flask import jsonify
-from handler.utils import to_specified_format ,CREATED, OK
+from handler.utils import to_specified_format ,CREATED, OK, BAD_REQUEST
 from dao.administrators import AdministratorDAO
 
 ADMINISTARTOR_FORMAT = ['email', 'first_name', 'last_name', 'phone_number', 'permission_level']
 
 class AdministratorHandler:
     def register(self, json):
-        administrator = AdministratorDAO().add(json)
-        return jsonify(Administrator = administrator), CREATED
+        if json['country'] and json['city'] and json['street'] and json['district'] and json['zipcode'] and ['longitude'] and json['latitude'] and json['user_name'] and json['email'] and json['password'] and json['first_name'] and json['last_name'] and json['dob'] and json['phone_number'] and json['permission_level']:
+            administrator = AdministratorDAO().add(json)
+            administrator_list = to_specified_format(administrator, ADMINISTARTOR_FORMAT)
+            return jsonify(Administrator = administrator_list), CREATED
+        else:
+            return jsonify(Error = 'Unexpected attributes in post request'), BAD_REQUEST
 
     def getAll(self):
         administrators = AdministratorDAO().getAll()

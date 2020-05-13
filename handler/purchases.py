@@ -1,5 +1,5 @@
 from flask import jsonify
-from handler.utils import to_specified_format, OK
+from handler.utils import to_specified_format, OK, CREATED, BAD_REQUEST
 from dao.purchases import PurchasesDAO
 
 PURCHASE_FORMAT = ['id', 'date', 'supply_id', 'requester_id']
@@ -14,3 +14,12 @@ class PurchasesHandler:
         purchase = PurchasesDAO().getByID(id)
         purchase_list = to_specified_format(purchase, PURCHASE_FORMAT)
         return jsonify(Purchases = purchase_list), OK
+
+    def add(self, json):
+        if json['date'] and json['supply_id'] and json['requester_id']:
+            purchase_id = PurchasesDAO().add(json)
+            purchase = [(purchase_id, json['date'], json['supply_id'], json['requester_id'])]
+            purchase_list= to_specified_format(purchase, PURCHASE_FORMAT)
+            return jsonify(Reservation = purchase_list), CREATED
+        else:
+            return jsonify(Error = 'Unexpected attributes in post request'), BAD_REQUEST

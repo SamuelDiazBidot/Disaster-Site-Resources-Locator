@@ -5,7 +5,7 @@ from flask_cors import CORS
 from handler.resources import ResourcesHandler
 from handler.availableResource import AvailableResourceHandler, resourcesAvailable
 from handler.requests import RequestHandler
-from handler.administrator import AdministratorHandler
+from handler.administrators import AdministratorHandler
 from handler.requesters import RequesterHandler
 from handler.supplier import SupplierHandler, SupplyHandler
 from handler.statistics import StatisticsHandler
@@ -117,17 +117,22 @@ def getSupplyById(id):
     return SupplyHandler.getSupplyById(id)
 
 # Reservations and Purchases
-@app.route('/reservations')
+@app.route('/reservations', methods = [POST, GET])
 def reservations():
+    if request.method == POST:
+        return ReservationsHandler().add(request.json)
     return ReservationsHandler().getAll()
 
 @app.route('/reservations/<int:id>')
 def reservationsByID(id):
     return ReservationsHandler().getByID(id)
 
-@app.route('/purchases')
+@app.route('/purchases', methods = [POST, GET])
 def purchases():
-    return PurchasesHandler().getAll()
+    if request.method == POST:
+        return PurchasesHandler().add(request.json)
+    else:
+        return PurchasesHandler().getAll()
 
 @app.route('/purchases/<int:id>')
 def purchasesByID(id):

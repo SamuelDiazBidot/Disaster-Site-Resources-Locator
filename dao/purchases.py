@@ -25,3 +25,11 @@ class PurchasesDAO:
         result = cursor.fetchall()
         self.conn.close()
         return result
+
+    def add(self, json):
+        cursor = self.conn.cursor()
+        query = 'insert into purchases (purchase_date, supply_id, requester_id) values (?,?,?)'
+        cursor.execute(query, (json['date'], json['supply_id'], json['requester_id']))
+        reservation_id = cursor.lastrowid
+        self.conn.close()
+        return reservation_id

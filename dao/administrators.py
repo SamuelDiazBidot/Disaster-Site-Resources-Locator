@@ -29,7 +29,7 @@ class AdministratorDAO:
         query = "insert into users (user_name, email, password, first_name, last_name, dob, phone_number, address) values (?,?,?,?,?,?,?,?)"
         cursor.execute(query, (json['user_name'], json['email'], json['password'], json['first_name'], json['last_name'], json['dob'], json['phone_number'], address_id))
         query = "insert into administrators (permission_level, user_name) values (?, ?)"
-        cursor.execute(query, (4, json['user_name']))
+        cursor.execute(query, (json['permission_level'], json['user_name']))
         administrator_id = cursor.lastrowid
         query = "select email, first_name, last_name, phone_number, permission_level from users natural inner join administrators where administrator_id=?"
         cursor.execute(query, (administrator_id,))

@@ -1,5 +1,5 @@
 from flask import jsonify
-from handler.utils import get_from_keyword_sorted_from_list, to_specified_format ,OK, ACCEPTED, CREATED, NOT_FOUND, registered_addresses as adrs
+from handler.utils import get_from_keyword_sorted_from_list, to_specified_format ,OK, ACCEPTED, CREATED, NOT_FOUND, BAD_REQUEST, registered_addresses as adrs
 from dao.requests import RequestDAO
 
 resourcesRequested = [
@@ -57,9 +57,12 @@ class RequestHandler:
         return jsonify(Requests = requests_list), OK
 
     def add(self, json):
-        request = RequestDAO().add(json)
-        request_list = to_specified_format(request, SELECTED_REQUEST_FORMAT)
-        return jsonify(Request = request_list), CREATED
+        if json['type'] and json['name'] and json['description'] and json['quantity'] and json['date'] and json['requester_id']: 
+            request = RequestDAO().add(json)
+            request_list = to_specified_format(request, SELECTED_REQUEST_FORMAT)
+            return jsonify(Request = request_list), CREATED
+        else:
+            return jsonify(Error = 'Unexpected attributes in post request'), BAD_REQUEST
 
     def delete(self, id):
         return jsonify(Request = resourcesRequested[0]), OK
