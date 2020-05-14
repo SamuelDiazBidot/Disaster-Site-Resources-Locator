@@ -6,6 +6,7 @@ from handler.resources import ResourcesHandler
 from handler.availableResource import AvailableResourceHandler, resourcesAvailable
 from handler.requests import RequestHandler
 from handler.administrators import AdministratorHandler
+from handler.users import UserHandler
 from handler.requesters import RequesterHandler
 from handler.supplier import SupplierHandler, SupplyHandler
 from handler.statistics import StatisticsHandler
@@ -38,7 +39,6 @@ def greetings():
 # Register routes
 @app.route('/register/administrator', methods=[POST])
 def registerAdmin():
-    print(request.json)
     return AdministratorHandler().register(request.json)
 
 @app.route('/register/requester', methods=[POST])
@@ -52,7 +52,7 @@ def registerSupplier():
 # User routes
 @app.route('/users')
 def getAllUsers():
-    return AdministratorHandler().getAllUsers()
+    return UserHandler().getAll()
 
 @app.route('/requesters')
 def getAllRequesters():
