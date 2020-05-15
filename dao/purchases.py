@@ -1,14 +1,9 @@
 import mariadb
+from handler.utils import generic_db_connect
 
 class PurchasesDAO:
     def __init__(self):
-        config = {
-            'host' : 'localhost',
-            'user' : 'monty',
-            'password' : 'python',
-        }
-
-        self.conn = mariadb.connect(**config, database = 'disaster_site_resource_locator_db')
+        self.conn = generic_db_connect()
 
     def getAll(self):
         cursor = self.conn.cursor()

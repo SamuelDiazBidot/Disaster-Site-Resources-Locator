@@ -1,5 +1,5 @@
 from flask import jsonify
-from handler.utils import to_specified_format, OK, CREATED
+from handler.utils import to_specified_format, OK, CREATED, BAD_REQUEST
 from dao. resources import ResourcesDAO
 
 RESOURCE_FORMAT = ['id', 'type', 'name', 'description']

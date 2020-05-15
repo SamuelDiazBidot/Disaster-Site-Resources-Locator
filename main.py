@@ -3,7 +3,6 @@ from flask import Flask, jsonify, request, json
 from flask_cors import CORS
 
 from handler.resources import ResourcesHandler
-from handler.availableResource import AvailableResourceHandler, resourcesAvailable
 from handler.requests import RequestHandler
 from handler.administrators import AdministratorHandler
 from handler.users import UserHandler
@@ -12,7 +11,6 @@ from handler.supplier import SupplierHandler, SupplyHandler
 from handler.statistics import StatisticsHandler
 from handler.reservations import ReservationsHandler
 from handler.purchases import PurchasesHandler
-# from handler.utils import ClientCartInfo
 
 app = Flask(__name__)
 CORS(app)
@@ -74,6 +72,10 @@ def getRequesterByID(id):
 def getAllAdministrators():
     return AdministratorHandler().getAll()
 
+@app.route('/administrators/<int:id>')
+def getAdministratorByID(id):
+    return AdministratorHandler().getByID(id)
+
 # Resources routes
 @app.route('/resources', methods=[GET,POST])
 def resources():
@@ -121,7 +123,8 @@ def getSupplyById(id):
 def reservations():
     if request.method == POST:
         return ReservationsHandler().add(request.json)
-    return ReservationsHandler().getAll()
+    else:
+        return ReservationsHandler().getAll()
 
 @app.route('/reservations/<int:id>', methods = [DELETE, GET])
 def reservationsByID(id):
@@ -156,8 +159,3 @@ def weeklyStatistics():
 @app.route('/statistics/district')
 def districtStatistics():
     return StatisticsHandler().getDistrictStatistics()
-
-# Client cart route
-# @app.route('/requester/cart')
-# def get_client_cart():
-    # return ClientCartInfo(resourcesAvailable).get_current_client_car()

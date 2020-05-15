@@ -1,15 +1,10 @@
 import mariadb
 from datetime import date, timedelta
+from handler.utils import generic_db_connect
 
 class StatisticsDAO:
     def __init__(self):
-        config = {
-            'host' : 'localhost',
-            'user' : 'monty',
-            'password' : 'python'
-        }
-
-        self.conn = mariadb.connect(**config, database = 'disaster_site_resource_locator_db')
+        self.conn = generic_db_connect()
 
     def mostRequestedDaily(self):
         today = date.today()

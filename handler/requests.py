@@ -2,30 +2,6 @@ from flask import jsonify
 from handler.utils import get_from_keyword_sorted_from_list, to_specified_format ,OK, ACCEPTED, CREATED, NOT_FOUND, BAD_REQUEST, registered_addresses as adrs
 from dao.requests import RequestDAO
 
-resourcesRequested = [
-    { "id" : 0
-    , "type" : "water bottle"
-    , "name" : "Nikini bottles"
-    , "description" : "36 water bottle pack"
-    , "requesterName" : "Johnny Sins"
-    , "location" : adrs[0]
-    },
-    { "id" : 1
-    , "type" : "baby food"
-    , "name" : "gerber baby food"
-    , "description": "bannana flavor"
-    , "requesterName" : "Jose Rivera"
-    , "location" : adrs[1]
-    },
-    { "id" : 2
-    , "type" : "gasoline"
-    , "name": "puma gas"
-    , "description": "20 liters"
-    , "requesterName" : "Miguel Navarro"
-    , "location" : adrs[2]
-    }
-]
-
 REQUEST_FORMAT = ['id', 'type', 'name', 'description', 'quantity', 'date']
 SELECTED_REQUEST_FORMAT = ['id', 'type', 'name', 'description', 'quantity', 'date', 'first_name', 'last_name', 'phone_number','country', 'city', 'street']
 
@@ -65,7 +41,7 @@ class RequestHandler:
             return jsonify(Error = 'Unexpected attributes in post request'), BAD_REQUEST
 
     def delete(self, id):
-        return jsonify(Request = resourcesRequested[0]), OK
+        return jsonify(Request = 'TODO'), OK
 
     def update(self, id, form):
-        return jsonify(Request = resourcesRequested[0]), OK
+        return jsonify(Request = 'TODO'), OK

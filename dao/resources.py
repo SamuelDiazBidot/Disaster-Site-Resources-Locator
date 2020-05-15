@@ -3,12 +3,6 @@ from handler.utils import generic_db_connect
 
 class ResourcesDAO:
     def __init__(self):
-        config = {
-            'host' : 'localhost' ,
-            'user' : 'monty',
-            'password' : 'python',
-        }
-
         self.conn = generic_db_connect()
 
     def getAll(self):

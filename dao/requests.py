@@ -1,15 +1,8 @@
 import mariadb
-
 from handler.utils import DATABASECONFIG, generic_db_connect
 
 class RequestDAO:
     def __init__(self):
-        config = {
-            'host' : 'localhost',
-            'user' : 'monty',
-            'password' : 'python'
-        }
-
         self.conn = generic_db_connect()
         
 
