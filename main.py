@@ -15,6 +15,7 @@ from handler.purchases import PurchasesHandler
 app = Flask(__name__)
 CORS(app)
 
+# Class used so that no errors occur when handling numbers with decimal points
 class JSonEnc(json.JSONEncoder):
 
     def default(self, obj):        
@@ -43,7 +44,7 @@ def registerAdmin():
 def registerRequester():
     return RequesterHandler().register(request.json)
 
-@app.route('/register/supplier', methods=[POST])
+@app.route('/register/supplier', methods=[POST]) #TODO Test method
 def registerSupplier():
     return SupplierHandler().register(request.json)
 
@@ -51,6 +52,14 @@ def registerSupplier():
 @app.route('/users')
 def getAllUsers():
     return UserHandler().getAll()
+
+@app.route('/users/new', methods=[POST]) 
+def addUser():
+    return UserHandler().add(request.json)
+
+@app.route('/users/<username>', methods=[GET])
+def getUserByUsername(username):
+    return UserHandler().getByUsername(username)
 
 @app.route('/requesters')
 def getAllRequesters():
@@ -107,8 +116,10 @@ def requestedByID(id):
     else:
         return RequestHandler().getByID(id)
 
-@app.route('/resources/supplies', methods=[GET])
+@app.route('/resources/supplies', methods=[GET, POST]) 
 def getAllSupply():
+    if request.method == POST:
+        return SupplyHandler.add(request.json)
     if not request.args:
         return SupplyHandler.getAllSupply()
     else:

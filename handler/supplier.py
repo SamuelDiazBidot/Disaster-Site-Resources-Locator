@@ -1,19 +1,23 @@
 from flask import jsonify
 
+from dao.users import UserDAO
 from dao.supply import SupplierDAO, SupplyDAO
-from handler.utils import CREATED, OK, NOT_FOUND, to_person_format, registered_addresses, to_specified_format, SUPPLYFORMAT, SUPPLYSEARCHKEYWORDFORMAT, RESOURCEFORMAT, make_google_map_link, append_loc_to_list
+from handler.utils import CREATED, OK, NOT_FOUND, to_person_format, registered_addresses, to_specified_format, SUPPLYFORMAT, SUPPLYSEARCHKEYWORDFORMAT, RESOURCEFORMAT, make_google_map_link, append_loc_to_list, BAD_REQUEST
 
-supplier = { "username" : "SuppliesRus"
-           , "password" : "plainText"
-           , "name" : "johnny bravo"
-           , "address" : registered_addresses[1]
-           }
 
 class SupplierHandler:
 
     @staticmethod
     def register(json):
-        return jsonify(Supplier = supplier), CREATED
+        if json['country'] and json['city'] and json['street'] and json['district'] and json['zipcode'] and ['longitude'] and json['latitude'] and json['user_name'] and json['email'] and json['password'] and json['first_name'] and json['last_name'] and json['dob'] and json['phone_number']:
+            if not UserDAO().getByUsername(json['user_name']):
+                supplier = SupplierDAO.add(json)
+                supplier_ls = to_specified_format([supplier], SUPPLYFORMAT) 
+                return jsonify(Supplier=supplier_ls), CREATED
+            else:
+                return jsonify(Error='Username already in use'), BAD_REQUEST
+        else:
+            return jsonify(Error='Unexpected attributes in post request'), BAD_REQUEST
 
     @staticmethod
     def getAll():        
@@ -22,7 +26,10 @@ class SupplierHandler:
     @staticmethod
     def getSupplierById(id):
         return jsonify(Suppliers=to_person_format(SupplierDAO.getById(id))), OK
-        
+
+    
+
+
     
 class SupplyHandler:
     
@@ -65,5 +72,24 @@ class SupplyHandler:
         result = to_specified_format(result, SupplyHandler.FRONTEND_FORMAT)
 
         return jsonify(Supplies=result), OK
+
+
+    @staticmethod
+    def add(json):
+        if json['type'] and json['name'] and json['description'] and json['quantity'] and json['date'] and json['supplier_id']: 
+            supply = SupplyDAO.add(json)
+            supply_ls = to_specified_format(supply, SupplyHandler.SELECTED_SUPPLY_FORMAT)
+            return jsonify(Supply = supply_ls), CREATED
+        else:
+            return jsonify(Error='Unexpected attributes in post request.'), BAD_REQUEST
+
+    @staticmethod
+    def delete(id):
+        return jsonify(Supply='TODO'), OK
+
+    @staticmethod
+    def update(id, form):
+        return jsonify(Supply='TODO'), OK
+    
 
         

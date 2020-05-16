@@ -84,6 +84,7 @@ SUPPLYFORMAT = ['supply_id', 'supply_quantity', 'supply_date', 'price', 'resourc
 
 SUPPLYSEARCHKEYWORDFORMAT = ['supply_id', 'supply_quantity', 'supply_date', 'price', 'resource_id', 'supplier_id', 'resource_description']
 RESOURCEFORMAT = ['supply_id', 'resource_type', 'resource_name', 'resource_description', 'supply_quantity', 'supply_date']
+USERINFOFORMAT = ['user_name', 'email', 'first_name', 'last_name', 'phone_number']
 
 
 def make_google_map_link(latitude, longitude):

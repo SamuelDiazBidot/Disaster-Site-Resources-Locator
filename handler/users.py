@@ -8,10 +8,10 @@ class UserHandler:
     def add(self, json):
         dao = UserDAO()
         if json['country'] and json['city'] and json['street'] and json['district'] and json['zipcode'] and ['longitude'] and json['latitude'] and json['user_name'] and json['email'] and json['password'] and json['first_name'] and json['last_name'] and json['dob'] and json['phone_number']:
-            if not dao().getByUsername(json['user_name']):
-                user = dao().add(json)
-                user_list = to_specified_format(user, USER_FORMAT)
-                return jsonify(User = user_list), CREATED
+            if not dao.getByUsername(json['user_name']):
+                user = dao.add(json)
+                #user_list = to_specified_format(user, USER_FORMAT)
+                return jsonify(User = []), CREATED
             else:
                 return jsonify(Error = 'Username already in use'), BAD_REQUEST
         else:
@@ -21,3 +21,7 @@ class UserHandler:
         users = UserDAO().getAll()
         users_list = to_specified_format(users, USER_FORMAT)
         return jsonify(Users = users_list), OK
+    
+    def getByUsername(self, u_name):
+        user = UserDAO().getByUsername(u_name)
+        return jsonify(Users=to_specified_format([user], USER_FORMAT)), OK
